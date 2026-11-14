@@ -584,7 +584,7 @@ html.duck-loading,body.duck-loading{overflow:hidden!important;overscroll-behavio
 }
 #duck-loader .orbit-duck:nth-child(even) svg{animation-delay:0}
 #duck-loader .duck-center{
- position:absolute;left:50%;top:50%;inset:auto;
+ position:absolute;inset:50% auto auto 50%;
  transform:translate(-50%,-50%);
  display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;
  width:91px;height:91px;
