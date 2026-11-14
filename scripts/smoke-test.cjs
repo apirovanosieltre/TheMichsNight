@@ -39,6 +39,9 @@ assert(finale.includes('Una notte di fuoco'));
 assert(finale.includes('Deni'));
 assert(finale.includes('IN OMAGGIO'));
 assert(finale.includes('ACCETTO IL MIO DESTINO'));
+assert(finale.includes('gran-finale-approvato.webp'),'Approved artwork must be used for the finale');
+assert(finale.includes('data-action="accept"'),'Destiny button must remain clickable');
+assert(fs.statSync(path.join(root,'assets/gran-finale-approvato.webp')).size>200000,'Approved finale artwork must be present at usable resolution');
 assert(finale.includes('Il comitato organizzatore declina ogni responsabilità riguardante questa parte di regalo'));
 assert(run('renderDiscoveries()').includes('Il gran finale'));
 const html=read('index.html'),css=read('styles.css'),loader=read('loader.js');
@@ -46,6 +49,7 @@ assert(html.includes('loader.js')&&html.includes('duck-loader'));
 assert(css.includes('duck-orbit')&&css.includes('duck-rotate'));
 assert(css.includes('body.home-mode .window-bar'),'The home artwork must not duplicate the outer title bar');
 assert(css.includes('.home-hit-start'),'Mobile homepage must expose a real CTA');
+assert(css.includes('.final-poster-cta'),'Finale poster must have an interactive hit area');
 
 assert(loader.includes('MIN_MS=3000')&&loader.includes('length:8'));
 assert(read('app.js').includes('window.michLoader.navigate'));
