@@ -21,3 +21,4 @@ jobs:
         run: |
           node scripts/smoke-test.cjs
           node scripts/finale-music-test.cjs
+          node scripts/duck-audio-test.cjs
