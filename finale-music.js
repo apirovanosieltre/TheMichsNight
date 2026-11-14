@@ -92,8 +92,9 @@
       return true;
     }catch{status('tap');return false}
   }
-  function prepareReveal(){
+  function prepareReveal(enabled){
     // Called by go('finale') before the loader, during a user gesture.
+    siteSoundOn=enabled!==false;
     desiredRoute='finale';
     pendingReveal=true;
     if(!siteSoundOn||musicMuted){status('tap');return}
