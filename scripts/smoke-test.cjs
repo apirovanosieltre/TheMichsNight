@@ -44,12 +44,50 @@ assert(finale.includes('data-action="accept"'),'Destiny button must remain click
 assert(fs.statSync(path.join(root,'assets/gran-finale-approvato.webp')).size>200000,'Approved finale artwork must be present at usable resolution');
 assert(finale.includes('Il comitato organizzatore declina ogni responsabilità riguardante questa parte di regalo'));
 assert(run('renderDiscoveries()').includes('Il gran finale'));
+
+run('state.accepted=true');
+const signedFinale=run('renderFinal()');
+assert(signedFinale.includes('CONTRATTO CON IL DESTINO FIRMATO'),'Accepted state must show signed contract');
+assert(signedFinale.includes('data-action="replay"'),'User must be able to replay the finale');
+const closeButtons=[
+ {addEventListener(){},focus(){this.focused=true}},
+ {addEventListener(){},focus(){this.focused=true}}
+];
+let overlay=null,modalOpen=false;
+const oldGet=context.document.getElementById;
+context.document.getElementById=id=>id==='mich-contract-overlay'?overlay:oldGet(id);
+context.document.activeElement={isConnected:true,focus(){}};
+context.document.createElement=()=>({
+ id:'',innerHTML:'',isConnected:false,attrs:{},
+ setAttribute(key,value){this.attrs[key]=value},
+ querySelectorAll(){return closeButtons},
+ addEventListener(){},
+ remove(){this.isConnected=false;overlay=null}
+});
+context.document.body={
+ append(node){overlay=node;node.isConnected=true},
+ classList:{add(name){if(name==='contract-modal-open')modalOpen=true},remove(name){if(name==='contract-modal-open')modalOpen=false}}
+};
+context.window.matchMedia=()=>({matches:true});
+run('state.sound=false;openContract()');
+assert(overlay&&modalOpen,'Contract must open as a blocking dialog');
+assert.equal(overlay.attrs['aria-modal'],'true');
+assert(overlay.innerHTML.includes('CONTRATTO<br>CON IL DESTINO'));
+assert(overlay.innerHTML.includes('Non sono previsti resi, rimborsi o possibilità di ripensamento.'));
+assert(overlay.innerHTML.includes('La Deni si riserva il diritto di modificare i termini del contratto.'));
+assert(overlay.innerHTML.includes('HO CAPITO, È TROPPO TARDI!'));
+assert(closeButtons[0].focused,'Dialog focus must move to close control');
+run('closeContract()');
+assert.equal(overlay,null,'Contract dialog must be removed on close');
+assert.equal(modalOpen,false,'Page scrolling must be restored after close');
+
 const html=read('index.html'),css=read('styles.css'),loader=read('loader.js');
 assert(html.includes('loader.js')&&html.includes('duck-loader'));
 assert(css.includes('duck-orbit')&&css.includes('duck-rotate'));
 assert(css.includes('body.home-mode .window-bar'),'The home artwork must not duplicate the outer title bar');
 assert(css.includes('.home-hit-start'),'Mobile homepage must expose a real CTA');
 assert(css.includes('.final-poster-cta'),'Finale poster must have an interactive hit area');
+assert(css.includes('.contract-overlay')&&css.includes('.contract-stamp-slam'),'Signed contract must have a styled animated overlay');
 
 assert(loader.includes('MIN_MS=3000')&&loader.includes('length:8'));
 assert(read('app.js').includes('window.michLoader.navigate'));
@@ -64,4 +102,4 @@ assert(css.includes('grid-template-columns:repeat(3,minmax(0,1fr))'),'Mobile nav
 assert(read('app.js').includes('assets/mich-sorriso.webp'),'Real Mich photo must appear in hero and finale');
 assert(!read('app.js').includes('assets/mich-sorriso.svg'),'Do not replace Mich portrait with illustrations');
 for(const file of ['index.html','styles.css','loader.js','app.js'])assert(fs.statSync(path.join(root,file)).size>0);
-console.log('PASS: routing, four-digit safe, mobile, final scene, three-second ducks, asset integrity');
+console.log('PASS: routing, games, signed destiny contract, modal accessibility, duck loader and asset integrity');
