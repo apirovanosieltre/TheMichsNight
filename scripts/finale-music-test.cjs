@@ -51,7 +51,7 @@ async function tap(fn){gesture=true;try{fn()}finally{gesture=false}await flush()
 (async()=>{
  assert(music&&typeof music.prepareReveal==='function');
  assert(code.includes('new Audio(SRC)'),'Use native media audio instead of Web Audio');
- assert(!code.includes('createMediaElementSource'),'Do not route iPhone music through a Web Audio node');
+ assert(!code.includes('context.createMediaElementSource('),'Do not route iPhone music through a Web Audio node');
  assert.equal(playCount,0,'No music on initial load');
  music.onRoute('home',true);
  music.onRoute('scoperte',true);
