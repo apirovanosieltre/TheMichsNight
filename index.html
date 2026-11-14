@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#15102c" />
+  <meta name="description" content="The Mich's Night: un regalo da scoprire, una sfida alla volta." />
+  <title>The Mich's Night 🎁</title>
+  <link rel="icon" href="assets/mich-avatar.webp" type="image/webp" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="app.js" defer></script>
+</head>
+<body>
+ <div class="stars" aria-hidden="true"></div>
+ <div class="app-window">
+  <header class="window-bar"><div class="window-caption"><span class="win-gift">🎁</span><span>The Mich's Night</span><span class="window-sub">/ missione compleanno</span></div><div class="window-actions" aria-hidden="true"><span>━</span><span>▣</span><span>✕</span></div></header>
+  <div class="workspace">
+   <aside class="sidebar">
+    <div class="sidebar-profile"><img src="assets/mich-avatar.webp" alt="Avatar cartoon di Mich"/><span class="online-dot" title="VIP collegato"></span><small>GIOCATORE 01</small><strong>★ MICH ★</strong></div>
+    <nav class="side-nav" aria-label="Navigazione principale">
+      <button type="button" data-route="home"><span>⌂</span>Home</button>
+      <button type="button" data-route="missioni"><span>🎮</span>Le missioni</button>
+      <button type="button" data-route="scoperte"><span>✦</span>Le scoperte</button>
+      <button type="button" data-route="finale"><span>🎁</span>Il gran finale</button>
+      <button type="button" data-route="info"><span>ⓘ</span>Info utili</button>
+    </nav>
+    <div class="sidebar-bottom"><span class="pixel-cake">🎂</span><span>100% FATTO CON<br/>GLI AMICI 💜</span></div>
+   </aside>
+   <main id="app" class="main-content" tabindex="-1" aria-live="polite"></main>
+  </div>
+  <footer class="status-bar"><span>● SISTEMA OPERATIVO: MICH OS 1.0</span><span id="status-progress">PROGRESSO: 0/3</span><button id="sound-toggle" type="button" aria-label="Attiva o disattiva l'audio">♫ AUDIO ON</button></footer>
+ </div>
+ <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
