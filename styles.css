@@ -455,3 +455,24 @@ body.contract-modal-open{overflow:hidden}
  .contract-stamp{transform:rotate(-9deg)!important}
  .contract-impact{display:none}
 }
+
+/* Cassaforte dei simboli: pulsanti touch e cronologia leggibile su iPhone. */
+.symbol-safe{max-width:600px;min-width:0;margin:0 auto}
+.symbol-safe>p{font-size:14px}
+.symbol-attempts{font:900 13px monospace;letter-spacing:1px;color:var(--lime)!important;margin:17px 0 10px}
+.symbol-code{display:flex;justify-content:center;align-items:center;gap:clamp(6px,2vw,13px);max-width:100%;margin:10px auto 17px}
+.symbol-slot{display:grid;place-items:center;min-width:0;width:clamp(50px,17%,76px);height:clamp(57px,19vw,80px);max-height:80px;border:3px solid #9470d4;border-radius:13px;background:linear-gradient(#301e57,#170e34);color:#f8eaff;font-size:clamp(26px,7vw,39px);box-shadow:0 4px #080419;touch-action:manipulation}
+.symbol-slot.selected{border-color:var(--lime);box-shadow:0 0 0 2px #dfff3250,inset 0 0 12px #c0ee4b18}
+.symbol-slot:focus-visible,.symbol-choice:focus-visible{outline:3px solid white;outline-offset:3px}
+.symbol-picker{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:clamp(4px,1vw,9px);max-width:510px;margin:0 auto 16px}
+.symbol-choice{display:grid;place-items:center;min-width:0;min-height:49px;border:2px solid #bda0e9;border-radius:10px;background:#3a245e;font-size:clamp(20px,5vw,30px);touch-action:manipulation}
+.symbol-choice[aria-pressed="true"]{background:#4a4472;border-color:var(--lime)}
+.symbol-choice:disabled,.symbol-slot:disabled{opacity:.65}
+.symbol-history-title{font:900 13px monospace;letter-spacing:1px;color:#e5ccff;margin:22px 0 9px}
+.symbol-history{list-style:none;margin:0;padding:0;display:grid;gap:7px;text-align:left}
+.symbol-history-row{display:flex;align-items:center;gap:10px;background:#2a1b4b;border:1px solid #78639f;border-radius:9px;padding:9px 11px;min-width:0;flex-wrap:wrap}
+.symbol-history-num{font:900 12px monospace;color:var(--lime)}
+.symbol-history-code{font-size:clamp(16px,4vw,23px);letter-spacing:1px;white-space:nowrap}
+.symbol-history-hints{display:flex;flex:1;gap:4px 12px;flex-wrap:wrap;justify-content:flex-end;font:750 12px/1.45 system-ui,sans-serif;color:#fff1b0}
+.symbol-history-empty{padding:13px 10px;border:1px dashed #77649e;border-radius:9px;text-align:center;color:#c9bce5;font-size:13px}
+@media(max-width:420px){.symbol-safe>p{font-size:13px}.symbol-history-row{gap:7px;padding:9px}.symbol-history-hints{justify-content:flex-start;font-size:11px}.symbol-choice{min-height:47px}}

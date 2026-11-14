@@ -4,9 +4,9 @@ Sito-regalo arcade per Mich, creato dai suoi amici.
 
 ## Funzionamento
 - Homepage senza spoiler e pulsante **Inizia l'avventura**.
-- Sequenza luminosa → sblocca il Binario Magic Pub.
-- Puzzle di interruttori → sblocca l'esperienza Backdoor 1253.
-- Cassaforte logica → sblocca il gran finale.
+- Sequenza musicale di **6 note** → sblocca il Binario Magic Pub.
+- Cassaforte dei simboli: **4 simboli diversi fra 6**, 6 tentativi e indizi per posizione → sblocca Backdoor 1253.
+- Cassaforte numerica con 4 enigmi logici → sblocca il gran finale.
 - Finale: **IN OMAGGIO: Una notte di fuoco con la Deni**, con il pulsante **Accetto il mio destino**.
 - Progressi salvati localmente nel browser, navigazione tra le sezioni sbloccate e suoni disattivabili.
 
