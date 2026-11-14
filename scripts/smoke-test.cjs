@@ -110,7 +110,7 @@ assert(read('app.js').includes("michFinaleMusic?.onRoute(r,state.sound)"),'Route
 assert(read('app.js').includes("michFinaleMusic?.underContract(true)"),'Contract must reduce the background volume');
 assert(read('app.js').includes("michFinaleMusic?.underContract(false)"),'Closing the contract must restore volume');
 assert(read('finale-music.js').includes("SRC='assets/finale-music.mp3"),'Music must come from the user supplied file');
-assert(read('finale-music.js').includes("s.loop=true"),'Finale track should repeat during the reveal');
+assert(read('finale-music.js').includes('audio.loop=true'),'Finale track should repeat during the reveal');
 
 assert(css.includes('duck-orbit')&&css.includes('duck-rotate'));
 assert(css.includes('body.home-mode .window-bar'),'The home artwork must not duplicate the outer title bar');
