@@ -110,7 +110,7 @@ assert(read('app.js').includes("michFinaleMusic?.onRoute(r,state.sound)"),'Route
 assert(read('app.js').includes("if(where==='finale')window.michFinaleMusic?.prepareReveal(state.sound)"),'Opening a surprise must unlock soundtrack synchronously in Safari');
 assert(read('finale-music.js').includes("media.currentTime=0"),'Replay must restart at beginning after the duck loader');
 assert(html.includes('silent-prime-v5'),'Safari should load the repaired silent WAV primer');
-assert(html.includes('quack-native-v2'),'Safari should load the native QUACK player');
+assert(html.includes('double-clean-v1'),'Safari should load the native QUACK player');
 assert(read('finale-music.js').includes('new Audio(SILENT_WAV)'),'Prime native media with silent sound for Safari');
 assert(read('finale-music.js').includes("poster.insertAdjacentElement('beforebegin',box)"),'Music control must be visible above the finale poster');
 
