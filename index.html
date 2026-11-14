@@ -7,12 +7,33 @@
   <meta name="description" content="The Mich's Night: un regalo da scoprire, una sfida alla volta." />
   <title>The Mich's Night 🎁</title>
   <link rel="icon" href="assets/mich-avatar.webp?v=20261114-photos" type="image/webp" />
-  <link rel="stylesheet" href="styles.css?v=20261114-random-quacks" />
-  <script src="loader.js?v=20261114-random-quacks" defer></script>
+  <link rel="stylesheet" href="styles.css?v=20261114-compact-ducks-v1" />
+  <script src="loader.js?v=20261114-compact-ducks-v1" defer></script>
   <script src="app.js?v=20261114-clear-third-clue" defer></script>
 </head>
 <body>
- <div id="duck-loader" class="is-visible" role="status" aria-live="polite" aria-label="Caricamento delle missioni: le paperelle stanno girando"><div class="duck-box"><h2>THE MICH'S NIGHT 🦆</h2><p class="duck-sub">OPERAZIONE PAPERE IN CORSO...</p><div class="duck-loader-stage"><div id="duck-orbit" class="duck-orbit" aria-hidden="true"></div><div class="duck-center">QUACK!</div></div><p id="duck-loader-text" class="duck-loader-text">QUACK! PREPARAZIONE PAPERE...</p><div class="duck-loader-progress" aria-hidden="true"></div><button type="button" id="duck-audio-unlock" class="duck-audio-unlock" aria-label="Attiva il suono delle paperelle">🔊 TOCCA PER SENTIRE I QUACK</button></div></div>
+ <div id="duck-loader" class="is-visible" role="status" aria-label="Caricamento in corso: otto paperelle in movimento" aria-live="off">
+  <div class="duck-box">
+   <div class="duck-box-header">
+    <span class="duck-loader-kicker" aria-hidden="true">✦ ARCADE LOADING ✦</span>
+    <h2>THE MICH'S NIGHT <span class="duck-title-icon" aria-hidden="true">🦆</span></h2>
+    <p class="duck-sub">OPERAZIONE PAPERE IN CORSO...</p>
+   </div>
+   <div class="duck-loader-stage" aria-hidden="true">
+    <div class="duck-loader-ring"></div>
+    <div id="duck-orbit" class="duck-orbit"></div>
+    <div class="duck-center"><strong>QUACK!</strong><small>LOADING</small></div>
+   </div>
+   <div class="duck-box-footer">
+    <p id="duck-loader-text" class="duck-loader-text">PREPARAZIONE MISSIONE...</p>
+    <div class="duck-loader-progress" aria-hidden="true"><span class="duck-loader-progress-fill"></span></div>
+    <div class="duck-sound-row">
+     <button type="button" id="duck-audio-unlock" class="duck-audio-unlock" aria-label="Attiva il suono delle paperelle"><span aria-hidden="true">🔊</span> ATTIVA I QUACK</button>
+     <span id="duck-audio-state" class="duck-audio-state" hidden></span>
+    </div>
+   </div>
+  </div>
+ </div>
  <div class="stars" aria-hidden="true"></div>
  <div class="app-window">
   <header class="window-bar"><div class="window-caption"><span class="win-gift">🎁</span><span>The Mich's Night</span><span class="window-sub">/ missione compleanno</span></div><div class="window-actions" aria-hidden="true"><span>━</span><span>▣</span><span>✕</span></div></header>
