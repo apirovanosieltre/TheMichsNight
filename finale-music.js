@@ -169,7 +169,7 @@
     try{
       const time=context.currentTime;
       gain.gain.cancelScheduledValues(time);
-      gain.gain.setTargetAtTime(isOpen?.105:VOLUME,time,.2);
+      gain.gain.setTargetAtTime(isOpen ? .105 : VOLUME,time,.2);
     }catch{}
   }
   document.addEventListener('pointerdown',arm,{capture:true});
