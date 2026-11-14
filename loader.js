@@ -2,7 +2,7 @@
 /* Otto paperelle in orbita, con una durata minima di 3 secondi. */
 (()=> {
   const MIN_MS=3000;
-  let busy=false, soundUnlocked=false, ctx=null, ticks=[], labelTimer=null, finishTimer=null;
+  let busy=false, soundUnlocked=false, ctx=null, ticks=[], labelTimer=null, finishTimer=null, suppressNextHash=false;
   const root=document.getElementById('duck-loader');
   if(!root)return;
   const status=document.getElementById('duck-loader-text');
@@ -34,7 +34,7 @@
   function navigate(target,callback){
     if(busy)return;
     show();
-    finishTimer=setTimeout(()=>{hide();callback();window.scrollTo({top:0,behavior:'instant'})},MIN_MS);
+    finishTimer=setTimeout(()=>{suppressNextHash=true;hide();callback();window.scrollTo({top:0,behavior:'instant'});setTimeout(()=>{suppressNextHash=false},100)},MIN_MS);
   }
   window.michLoader={navigate, isBusy:()=>busy, show, hide};
   document.addEventListener('pointerdown',()=>{soundUnlocked=true},{once:true,capture:true});
@@ -44,7 +44,7 @@
   finishTimer=setTimeout(hide,MIN_MS);
   window.addEventListener('hashchange',()=>{
     /* Supporto anche indietro/avanti del browser. La navigazione guidata è già gestita da navigate(). */
-    if(busy)return;
+    if(busy||suppressNextHash)return;
     const now=location.hash;
     if(now&&now!=='#home'){
       show();finishTimer=setTimeout(hide,MIN_MS);
