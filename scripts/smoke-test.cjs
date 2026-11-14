@@ -107,6 +107,10 @@ assert(html.includes('finale-music.js'),'Finale soundtrack controller must be lo
 assert(html.indexOf('finale-music.js')<html.indexOf('app.js'),'Music controller must load before app routing');
 assert(fs.statSync(path.join(root,'assets/finale-music.mp3')).size>300000,'User supplied finale MP3 must be present');
 assert(read('app.js').includes("michFinaleMusic?.onRoute(r,state.sound)"),'Route changes must start or stop finale music');
+assert(read('app.js').includes("if(where==='finale')window.michFinaleMusic?.prepareReveal(state.sound)"),'Opening a surprise must unlock soundtrack synchronously in Safari');
+assert(read('finale-music.js').includes("media.currentTime=0"),'Replay must restart at beginning after the duck loader');
+assert(html.includes('revisit-safari-v2'),'The browser must refresh its cached music controller');
+
 assert(read('app.js').includes("michFinaleMusic?.underContract(true)"),'Contract must reduce the background volume');
 assert(read('app.js').includes("michFinaleMusic?.underContract(false)"),'Closing the contract must restore volume');
 assert(read('finale-music.js').includes("SRC='assets/finale-music.mp3"),'Music must come from the user supplied file');
