@@ -31,6 +31,11 @@ assert(run("renderFinal()").includes('AREA RISERVATISSIMA'));
 assert(run('renderMissions()').includes('BLOCCATA'));
 assert.equal(run('state.safe.length'),4,'The safe must have four dials');
 assert(run('renderSafe()').includes('Quarta cifra'),'The safe needs four clues');
+assert(run('renderSafe()').includes('aggiungiamo +3, +5, +7, +9'),'Second clue must explain the series');
+assert(run('renderSafe()').includes('contemporaneamente madre e figlia'),'Third clue must clarify the overlapping roles');
+assert(run('renderSafe()').includes('otto paperelle partecipano a un torneo a eliminazione diretta'),'First clue must remain unchanged');
+assert(run('renderSafe()').includes('traccia tutte le diagonali di un esagono'),'Fourth clue must remain unchanged');
+
 assert(read('app.js').includes("state.safe.join('')==='7839'"),'Four-digit answer required');
 assert.equal(run('SIMON_SEQUENCE.length'),6,'Six notes must be played');
 assert(run('renderSimon()').includes('ASCOLTA LE 6 NOTE'));
