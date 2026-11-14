@@ -8,7 +8,7 @@ let state=load();
 const SIMON_SEQUENCE=[0,3,1,2,0,2];
 const SIMON_NOTES=[261.63,329.63,392,523.25];
 const SYMBOLS=['🦆','🎂','🎁','⭐','🎲','🍀'];
-const SYMBOL_CODE_LENGTH=4,SYMBOL_MAX_ATTEMPTS=6;
+const SYMBOL_CODE_LENGTH=4,SYMBOL_MAX_ATTEMPTS=10;
 let simon={active:false,accepting:false,index:0,sequence:[...SIMON_SEQUENCE]};
 let hintVisible=false,viewToken=0,toastTimer;
 let ctx=null;
