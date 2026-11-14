@@ -60,12 +60,97 @@ function renderFinal(){
  '<img src="assets/gran-finale-approvato.webp?v=20261114-teatro" width="941" height="1672" fetchpriority="high" decoding="async" alt="IN OMAGGIO. IL GRAN FINALE. Una notte di fuoco con la Deni: Mich con rosa tra i denti e smoking rosso scintillante, sul palco con tendaggi rossi, sagoma femminile, cuori e fiamme. Il comitato organizzatore declina ogni responsabilità riguardante questa parte di regalo. ACCETTO IL MIO DESTINO." />'+
  '<button type="button" class="final-poster-cta" data-action="accept" aria-label="ACCETTO IL MIO DESTINO" title="Accetto il mio destino"></button>'+
  '</div>'+
- (state.accepted?'<div class="final-confirm" role="status"><h2>💘 DESTINO ACCETTATO!</h2><p>Il comitato organizzatore prende atto della tua coraggiosa decisione.<br/>La Deni non è stata consultata per la realizzazione di questo pulsante. 😎</p><button class="cta cta-secondary" data-action="replay">🎉 RIGUARDA IL GRAN FINALE</button></div>':'')+
+ (state.accepted?'<div class="final-confirm" role="status"><div class="final-confirm-seal" aria-hidden="true">✓</div><h2>📜 CONTRATTO CON IL DESTINO FIRMATO</h2><p>La tua decisione è stata registrata ufficialmente dal comitato organizzatore.</p><button type="button" class="cta cta-secondary" data-action="replay">🎭 RIGUARDA IL GRAN FINALE</button></div>':'')+
  '<p class="final-bottom"><button data-route="scoperte">← Le mie scoperte</button><button data-route="home">Torna all’inizio</button></p></section>';
 }
+
+/* Un finto contratto teatrale, non una conferma di prenotazione. */
+let contractReturnFocus=null;
+let contractTimers=[];
+function contractLater(fn,ms){const id=setTimeout(fn,ms);contractTimers.push(id);return id}
+function playContractStamp(){
+ if(!state.sound)return;
+ try{
+  const Audio=window.AudioContext||window.webkitAudioContext;
+  if(!Audio)return;
+  ctx=ctx||new Audio();
+  if(ctx.state==='suspended')ctx.resume().catch(()=>{});
+  const t=ctx.currentTime+.56;
+  const click=ctx.createOscillator(),cg=ctx.createGain();
+  click.type='square';
+  click.frequency.setValueAtTime(1100,t);
+  click.frequency.exponentialRampToValueAtTime(430,t+.055);
+  cg.gain.setValueAtTime(.0001,t);
+  cg.gain.exponentialRampToValueAtTime(.045,t+.006);
+  cg.gain.exponentialRampToValueAtTime(.0001,t+.09);
+  click.connect(cg);cg.connect(ctx.destination);click.start(t);click.stop(t+.095);
+  const thud=ctx.createOscillator(),tg=ctx.createGain();
+  thud.type='triangle';
+  thud.frequency.setValueAtTime(180,t);
+  thud.frequency.exponentialRampToValueAtTime(55,t+.17);
+  tg.gain.setValueAtTime(.0001,t);
+  tg.gain.exponentialRampToValueAtTime(.14,t+.009);
+  tg.gain.exponentialRampToValueAtTime(.0001,t+.21);
+  thud.connect(tg);tg.connect(ctx.destination);thud.start(t);thud.stop(t+.23);
+ }catch{}
+}
+function closeContract(){
+ const overlay=document.getElementById('mich-contract-overlay');
+ if(!overlay)return;
+ contractTimers.forEach(clearTimeout);contractTimers=[];
+ overlay.remove();
+ document.body.classList.remove('contract-modal-open');
+ const origin=contractReturnFocus;contractReturnFocus=null;
+ if(origin&&origin.isConnected)origin.focus({preventScroll:true});
+}
+function openContract(){
+ closeContract();
+ contractReturnFocus=document.activeElement;
+ const overlay=document.createElement('div');
+ overlay.id='mich-contract-overlay';
+ overlay.className='contract-overlay';
+ overlay.setAttribute('role','dialog');
+ overlay.setAttribute('aria-modal','true');
+ overlay.setAttribute('aria-labelledby','mich-contract-title');
+ overlay.setAttribute('aria-describedby','mich-contract-body');
+ overlay.innerHTML=[
+  "<div class='contract-spotlight' aria-hidden='true'></div>",
+  "<div class='contract-document'>",
+  "<div class='contract-header'><span>★ UFFICIO AFFARI IRREVOCABILI ★</span><button type='button' class='contract-close' aria-label='Chiudi il contratto' data-close-contract>✕</button></div>",
+  "<div class='contract-scroll'>",
+  "<div class='contract-present'>THE MICH’S NIGHT <span aria-hidden='true'>🔥</span></div>",
+  "<div class='contract-stamp-zone' aria-hidden='true'>",
+  "<span class='contract-stamp'>CONTRATTO<br>CON IL DESTINO<br><strong>FIRMATO</strong><span class='stamp-tick'>✓</span></span>",
+  "<span class='contract-impact'>TAC!</span></div>",
+  "<h2 id='mich-contract-title'>DESTINO ACCETTATO!</h2>",
+  "<p id='mich-contract-body' class='contract-message'>La tua decisione è stata registrata. <strong>Non sono previsti resi, rimborsi o possibilità di ripensamento.</strong></p>",
+  "<p class='contract-deni'>La Deni si riserva il diritto di modificare i termini del contratto. <span aria-hidden='true'>🔥</span></p>",
+  "<div class='contract-signatures'><span>FIRMA DEL DESTINATARIO<br><strong>Mich ✓</strong></span><span>IL COMITATO ORGANIZZATORE<br><strong>Approvato 💘</strong></span></div>",
+  "<p class='contract-fineprint'>Documento puramente scherzoso. Il regalo si vive con gli amici, la data resta da concordare.</p>",
+  "<button class='contract-ack' type='button' data-close-contract>HO CAPITO, È TROPPO TARDI! ↗</button>",
+  "</div></div>"
+ ].join('');
+ document.body.append(overlay);
+ document.body.classList.add('contract-modal-open');
+ const closeButtons=[...overlay.querySelectorAll('[data-close-contract]')];
+ closeButtons.forEach(btn=>btn.addEventListener('click',closeContract));
+ overlay.addEventListener('keydown',event=>{
+  if(event.key==='Escape'){event.preventDefault();closeContract();return}
+  if(event.key!=='Tab')return;
+  const first=closeButtons[0],last=closeButtons[closeButtons.length-1];
+  if(event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus()}
+  else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus()}
+ });
+ closeButtons[0].focus({preventScroll:true});
+ playContractStamp();
+ const reduceMotion=typeof window.matchMedia==='function'&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+ contractLater(()=>{if(overlay.isConnected&&!reduceMotion)confetti(135)},reduceMotion?0:920);
+ contractLater(()=>{if(overlay.isConnected)fanfare()},reduceMotion?0:1060);
+}
+
 function renderInfo(){return `${heading('ⓘ DETTAGLI DELLA MISSIONE','Info utili','Qui trovi solo ciò che possiamo dirti senza rovinare le sorprese.')}<div class="info-box"><h2>📆 Quando?</h2><p>La data di <strong>The Mich's Night</strong> è ancora da definire. La sceglieremo insieme prima delle prenotazioni.</p><div class="divider"></div><h2>💜 Con chi?</h2><p>Con i tuoi amici. Non serve un elenco di nomi: quello che conta è che abbiamo pensato questa serata per te.</p><div class="divider"></div><h2>🎮 Come funziona il sito?</h2><p>Premi «Inizia l'avventura», completa tre minigiochi di logica e scopri una sorpresa alla volta. Ogni premio sbloccato resterà disponibile in «Le scoperte».</p><div class="divider"></div><h2>💾 Dove finiscono i progressi?</h2><p>Si salvano automaticamente nel browser di questo dispositivo, senza registrazione. Non cancellare i dati del sito se vuoi conservarli.</p><button class="inline-button" data-action="reset-all" style="margin-top:10px">↻ Ricomincia tutta l'avventura</button><p style="font-size:12px;margin-bottom:0">Questa opzione azzera i progressi solo dopo una conferma.</p></div>`}
 function render(){viewToken++;hintVisible=false;const requested=route(),r=safeRoute(requested);if(r!==requested){location.hash=r;return}if(document.body?.classList)document.body.classList.toggle('home-mode',r==='home');setNav(r);syncProgress();switch(r){case'home':app.innerHTML=renderHome();break;case'missioni':app.innerHTML=renderMissions();break;case'sfida-1':simon={active:false,accepting:false,index:0,sequence:[0,3,1,2]};app.innerHTML=renderSimon();break;case'sfida-2':app.innerHTML=renderLights();break;case'sfida-3':app.innerHTML=renderSafe();break;case'scoperta-1':case'scoperta-2':app.innerHTML=renderReveal(Number(r.slice(-1)));break;case'scoperte':app.innerHTML=renderDiscoveries();break;case'finale':app.innerHTML=renderFinal();break;case'info':app.innerHTML=renderInfo();break;default:location.hash='home';return}}
-document.addEventListener('click',event=>{const target=event.target.closest('button');if(!target)return;const targetRoute=target.dataset.route;if(targetRoute){sound(720,.09);go(targetRoute);return}if(target.dataset.pad!==undefined){simonPress(Number(target.dataset.pad));return}if(target.dataset.light!==undefined){lightsPress(Number(target.dataset.light));return}if(target.dataset.digit!==undefined){digitButton(Number(target.dataset.digit),Number(target.dataset.dir));sound(320,.05);return}const action=target.dataset.action;if(!action)return;if(action==='start-simon'){sound(800,.05);startSimon()}if(action==='hint'){hintVisible=!hintVisible;const el=document.getElementById('hint-area');const n=Number(route().slice(-1));if(el)el.textContent=hintVisible?hintFor(n):'Nessuna fretta: le prove non hanno un timer.'}if(action==='reset-lights'){state.lights=initialLights();save();render();toast('Puzzle ricominciato.')}if(action==='verify-safe')safeCheck();if(action==='accept'){state.accepted=true;save();fanfare();confetti(170);render();document.querySelector('.final-confirm')?.scrollIntoView({behavior:'smooth',block:'center'})}if(action==='replay'){confetti(120);fanfare();document.querySelector('.final-poster-artboard')?.scrollIntoView({behavior:'smooth',block:'start'})}if(action==='reset-all'){if(confirm('Vuoi davvero cancellare tutti i progressi di questa avventura su questo dispositivo?')){state={...DEFAULT};save();toast('Avventura ricominciata!');go('home')}}});
+document.addEventListener('click',event=>{const target=event.target.closest('button');if(!target)return;const targetRoute=target.dataset.route;if(targetRoute){sound(720,.09);go(targetRoute);return}if(target.dataset.pad!==undefined){simonPress(Number(target.dataset.pad));return}if(target.dataset.light!==undefined){lightsPress(Number(target.dataset.light));return}if(target.dataset.digit!==undefined){digitButton(Number(target.dataset.digit),Number(target.dataset.dir));sound(320,.05);return}const action=target.dataset.action;if(!action)return;if(action==='start-simon'){sound(800,.05);startSimon()}if(action==='hint'){hintVisible=!hintVisible;const el=document.getElementById('hint-area');const n=Number(route().slice(-1));if(el)el.textContent=hintVisible?hintFor(n):'Nessuna fretta: le prove non hanno un timer.'}if(action==='reset-lights'){state.lights=initialLights();save();render();toast('Puzzle ricominciato.')}if(action==='verify-safe')safeCheck();if(action==='accept'){state.accepted=true;save();render();openContract()}if(action==='replay'){openContract()}if(action==='reset-all'){if(confirm('Vuoi davvero cancellare tutti i progressi di questa avventura su questo dispositivo?')){state={...DEFAULT};save();toast('Avventura ricominciata!');go('home')}}});
 document.getElementById('sound-toggle').addEventListener('click',()=>{state.sound=!state.sound;save();if(state.sound)sound(690,.15)});
 window.addEventListener('hashchange',render);
 if(!location.hash)location.hash='home';render();
