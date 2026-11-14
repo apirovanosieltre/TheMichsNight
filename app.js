@@ -15,7 +15,7 @@ let ctx=null;
 const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 function save(){localStorage.setItem(KEY,JSON.stringify(state));syncProgress()}
 function route(){return decodeURIComponent(location.hash.replace(/^#/,''))||'home'}
-function go(where){const action=()=>{if(location.hash==='#'+where)render();else location.hash=where;window.scrollTo({top:0,behavior:'instant'})};if(window.michLoader)window.michLoader.navigate(where,action);else action()}
+function go(where){if(where!=='finale')window.michFinaleMusic?.stop();const action=()=>{if(location.hash==='#'+where)render();else location.hash=where;window.scrollTo({top:0,behavior:'instant'})};if(window.michLoader)window.michLoader.navigate(where,action);else action()}
 function safeRoute(r){if(/^sfida-[123]$/.test(r)&&Number(r.slice(-1))>state.completed+1)return 'missioni';if(/^scoperta-[123]$/.test(r)&&Number(r.slice(-1))>state.completed)return 'scoperte';return r}
 function toast(message){const el=document.getElementById('toast');el.textContent=message;el.classList.add('visible');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('visible'),3200)}
 function syncProgress(){document.getElementById('status-progress').textContent=`PROGRESSO: ${state.completed}/3`;document.getElementById('sound-toggle').textContent=state.sound?'♫ AUDIO ON':'♫ AUDIO OFF'}
