@@ -109,14 +109,14 @@ assert(fs.statSync(path.join(root,'assets/finale-music.mp3')).size>300000,'User 
 assert(read('app.js').includes("michFinaleMusic?.onRoute(r,state.sound)"),'Route changes must start or stop finale music');
 assert(read('app.js').includes("if(where==='finale')window.michFinaleMusic?.prepareReveal(state.sound)"),'Opening a surprise must unlock soundtrack synchronously in Safari');
 assert(read('finale-music.js').includes("media.currentTime=0"),'Replay must restart at beginning after the duck loader');
-assert(html.includes('native-media-v3'),'The browser must refresh its cached native music controller');
-assert(read('finale-music.js').includes('new Audio(SRC)'),'Use native media rather than Web Audio for iPhone');
+assert(html.includes('silent-prime-v4'),'The browser must refresh its cached silent audio controller');
+assert(read('finale-music.js').includes('new Audio(SILENT_WAV)'),'Prime native media with silent sound for Safari');
 assert(read('finale-music.js').includes("poster.insertAdjacentElement('beforebegin',box)"),'Music control must be visible above the finale poster');
 
 assert(read('app.js').includes("michFinaleMusic?.underContract(true)"),'Contract must reduce the background volume');
 assert(read('app.js').includes("michFinaleMusic?.underContract(false)"),'Closing the contract must restore volume');
 assert(read('finale-music.js').includes("SRC='assets/finale-music.mp3"),'Music must come from the user supplied file');
-assert(read('finale-music.js').includes('media.loop=true'),'Finale track should repeat during the reveal');
+assert(read('finale-music.js').includes('el.loop=true'),'Finale track should repeat during the reveal');
 
 assert(css.includes('duck-orbit')&&css.includes('duck-rotate'));
 assert(css.includes('body.home-mode .window-bar'),'The home artwork must not duplicate the outer title bar');
