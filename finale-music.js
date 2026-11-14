@@ -81,9 +81,10 @@
 
  function stop(){
   prepared=false;request++;playbackStatus='idle';
-  if(media){
-   try{media.pause()}catch{}
-   if(trackLoaded){try{media.currentTime=0}catch{}}
+  // Do not interrupt the silent primer on an ordinary navigation click.
+  // Safari must finish that short silent sample to grant this element playback.
+  if(media&&trackLoaded){
+   try{media.pause();media.currentTime=0}catch{}
   }
   refresh();
  }
