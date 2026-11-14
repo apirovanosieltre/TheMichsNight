@@ -110,6 +110,14 @@ assert(css.includes('.final-poster-cta'),'Finale poster must have an interactive
 assert(css.includes('.contract-overlay')&&css.includes('@keyframes contract-stamp-slam'),'Signed contract must have a styled animated overlay');
 
 assert(loader.includes('MIN_MS=3000')&&loader.includes('length:8'));
+assert(html.includes('id="duck-audio-unlock"'),'A manual audio control must be visible when autoplay is blocked');
+assert(css.includes('.duck-audio-unlock'),'Audio unlock must be styled');
+assert(loader.includes('preloadQuack()'),'Quack audio must preload before any interaction');
+assert(loader.includes('scheduleQuack(true)')&&loader.includes('randomDelay(620,1370)'),'Quacks must be repeated at random intervals');
+assert(!loader.includes('[500,1270,1990,2650]'),'No four fixed quack timestamps');
+assert(loader.includes('ctx.resume()'),'Mobile browsers must be unlocked from a gesture');
+assert(loader.includes('stopPlaying()'),'Hide must stop any playing quacks');
+
 assert(read('app.js').includes('window.michLoader.navigate'));
 for(const image of ['mich-sorriso.webp','mich-barba.webp','mich-avatar.webp','binario-anteprima.webp']){
   const b=fs.readFileSync(path.join(root,'assets',image));
