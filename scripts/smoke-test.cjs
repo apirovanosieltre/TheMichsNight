@@ -109,7 +109,8 @@ assert(fs.statSync(path.join(root,'assets/finale-music.mp3')).size>300000,'User 
 assert(read('app.js').includes("michFinaleMusic?.onRoute(r,state.sound)"),'Route changes must start or stop finale music');
 assert(read('app.js').includes("if(where==='finale')window.michFinaleMusic?.prepareReveal(state.sound)"),'Opening a surprise must unlock soundtrack synchronously in Safari');
 assert(read('finale-music.js').includes("media.currentTime=0"),'Replay must restart at beginning after the duck loader');
-assert(html.includes('silent-prime-v4'),'The browser must refresh its cached silent audio controller');
+assert(html.includes('silent-prime-v5'),'Safari should load the repaired silent WAV primer');
+assert(html.includes('quack-native-v2'),'Safari should load the native QUACK player');
 assert(read('finale-music.js').includes('new Audio(SILENT_WAV)'),'Prime native media with silent sound for Safari');
 assert(read('finale-music.js').includes("poster.insertAdjacentElement('beforebegin',box)"),'Music control must be visible above the finale poster');
 
@@ -143,6 +144,7 @@ assert(loader.includes('scheduleQuack(true)')&&/randomDelay\(\d+,\d+\)/.test(loa
 assert(!loader.includes('[500,1270,1990,2650]'),'No four fixed quack timestamps');
 assert(loader.includes('document.addEventListener(\'pointerdown\'')&&loader.includes('playQuack()'),'Mobile duck audio must be initiated by a user gesture');
 assert(loader.includes('stopPlaying()'),'Hide must stop any playing quacks');
+assert(loader.includes('new Audio(CLIP)'),'The iPhone QUACK audio should be native media');
 assert(loader.includes('const CLIP=\'assets/quack.mp3'),'The attached duck sound must be used');
 
 assert(read('app.js').includes('window.michLoader.navigate'));
