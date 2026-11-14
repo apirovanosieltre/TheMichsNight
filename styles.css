@@ -212,3 +212,55 @@ body.home-mode .main-content::after{display:none!important}
 @media (min-width:1200px){
   body.home-mode .app-window{width:min(100%,941px)}
 }
+
+
+/* Sipario e Mich nello smoking: esattamente il poster approvato.
+   I testi sono nell'illustrazione, ma il pulsante è un vero controllo HTML. */
+.finale-page{max-width:1000px;margin:0 auto}
+.final-poster-artboard{
+ position:relative;
+ isolation:isolate;
+ width:min(100%,941px);
+ aspect-ratio:941/1672;
+ margin:0 auto;
+ background:#3f071c;
+ border-radius:18px;
+ overflow:hidden;
+ box-shadow:0 0 28px #ef3fbc77,0 14px 28px #0008;
+}
+.final-poster-artboard>img{
+ display:block;
+ width:100%;
+ height:100%;
+ object-fit:fill;
+ user-select:none;
+ -webkit-user-drag:none;
+}
+.final-poster-cta{
+ position:absolute;
+ z-index:3;
+ left:9%;
+ top:87.55%;
+ width:82%;
+ height:8.55%;
+ display:block;
+ padding:0;
+ margin:0;
+ border:0;
+ border-radius:12px;
+ color:transparent;
+ background:transparent;
+ cursor:pointer;
+ touch-action:manipulation;
+ -webkit-tap-highlight-color:rgba(255,255,255,.12);
+}
+.final-poster-cta:hover{box-shadow:inset 0 0 0 3px #fff8b29c,0 0 32px #faff6488;background:#f8ff3c0a}
+.final-poster-cta:active{background:#fff9b539}
+.final-poster-cta:focus-visible{outline:3px solid #fff7b1;outline-offset:-3px;background:#fff8b51e}
+.finale-page .final-confirm{margin:24px auto 12px}
+@media(max-width:680px){
+ .finale-page{margin-inline:-11px}
+ .final-poster-artboard{border-radius:11px;box-shadow:0 0 15px #ef3fbc6e}
+ .final-poster-cta{border-radius:8px}
+}
+@media(prefers-reduced-motion:reduce){.final-poster-cta{transition:none}}
