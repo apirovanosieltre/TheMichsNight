@@ -20,6 +20,11 @@ const home=run('renderHome()');
 for(const forbidden of ['Binario Magic Pub','Backdoor 1253','Una notte di fuoco con la Deni'])
  assert.equal(home.includes(forbidden),false,'Home must not spoil: '+forbidden);
 assert(home.includes("INIZIA L'AVVENTURA"));
+assert(home.includes('assets/home-approved.webp'),'Home must render the approved artwork');
+assert(home.includes('home-hit-start'),'The artwork must have a clickable start button');
+for(const where of ['home-hit-home','home-hit-mission','home-hit-progress','home-hit-extra'])
+ assert(home.includes(where),'Home hotspot missing: '+where);
+
 assert.equal(run("safeRoute('sfida-2')"),'missioni');
 assert.equal(run("safeRoute('scoperta-1')"),'scoperte');
 assert(run("renderFinal()").includes('AREA RISERVATISSIMA'));
@@ -39,6 +44,9 @@ assert(run('renderDiscoveries()').includes('Il gran finale'));
 const html=read('index.html'),css=read('styles.css'),loader=read('loader.js');
 assert(html.includes('loader.js')&&html.includes('duck-loader'));
 assert(css.includes('duck-orbit')&&css.includes('duck-rotate'));
+assert(css.includes('body.home-mode .window-bar'),'The home artwork must not duplicate the outer title bar');
+assert(css.includes('.home-hit-start'),'Mobile homepage must expose a real CTA');
+
 assert(loader.includes('MIN_MS=3000')&&loader.includes('length:8'));
 assert(read('app.js').includes('window.michLoader.navigate'));
 for(const image of ['mich-sorriso.webp','mich-barba.webp','mich-avatar.webp','binario-anteprima.webp']){
