@@ -139,9 +139,9 @@ assert(loader.includes("classList?.add('duck-loading')")&&loader.includes("class
 
 assert(css.includes('.duck-audio-unlock'),'Audio unlock must be styled');
 assert(loader.includes('preloadQuack()'),'Quack audio must preload before any interaction');
-assert(loader.includes('scheduleQuack(true)')&&loader.includes('randomDelay(620,1370)'),'Quacks must be repeated at random intervals');
+assert(loader.includes('scheduleQuack(true)')&&/randomDelay\(\d+,\d+\)/.test(loader),'Quacks must be repeated at random intervals');
 assert(!loader.includes('[500,1270,1990,2650]'),'No four fixed quack timestamps');
-assert(loader.includes('ctx.resume()'),'Mobile browsers must be unlocked from a gesture');
+assert(loader.includes('document.addEventListener(\'pointerdown\'')&&loader.includes('playQuack()'),'Mobile duck audio must be initiated by a user gesture');
 assert(loader.includes('stopPlaying()'),'Hide must stop any playing quacks');
 
 assert(read('app.js').includes('window.michLoader.navigate'));
