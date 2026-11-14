@@ -21,7 +21,7 @@ function confetti(count=85){const parent=document.createElement('div');parent.cl
 function setNav(r){document.querySelectorAll('.side-nav button').forEach(b=>{const target=b.dataset.route;const active=target===r||(target==='missioni'&&r.startsWith('sfida-'))||(target==='scoperte'&&r.startsWith('scoperta-'));b.classList.toggle('active',active);if(active)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')})}
 function heading(kicker,title,sub){return `<header class="section-head"><div class="eyebrow">${kicker}</div><h1>${title}</h1><p>${sub}</p></header>`}
 function renderHome(){
-  return \`<section class="home-artboard" aria-label="Homepage di The Mich's Night: una serata speciale organizzata dagli amici di Mich">
+  return `<section class="home-artboard" aria-label="Homepage di The Mich's Night: una serata speciale organizzata dagli amici di Mich">
     <img class="home-art-image" src="assets/home-approved.webp?v=20261114-approved" width="941" height="1672"
       alt="The Mich's Night, la tua serata speciale. Mich senza barba ritagliato con bordo bianco, corona neon e piccoli effetti arcade; la vera foto di Mich con barba in una polaroid, un regalo rosa pixelato, il messaggio Benvenuto Mich e il grande pulsante Inizia l'avventura."
       fetchpriority="high" decoding="async" />
@@ -32,7 +32,7 @@ function renderHome(){
       <button type="button" class="home-hit home-hit-extra" data-route="info" aria-label="Extra e informazioni utili" title="Extra"></button>
     </nav>
     <button type="button" class="home-hit home-hit-start" data-route="missioni" aria-label="INIZIA L'AVVENTURA" title="Inizia l'avventura"></button>
-  </section>\`;
+  </section>`;
 }
 function missionItem(n){const done=state.completed>=n,open=state.completed===n-1;const icon=done?'🏆':open?'🕹️':'🔒';return `<article class="mission-card ${done?'completed':open?'open':''}"><span class="step-label">LIVELLO 0${n}</span><div class="mission-icon" aria-hidden="true">${icon}</div><h2>${done?'COMPLETATA':`MISSIONE ${n}`}</h2><p>${done?'Complimenti! Il tuo premio è già sbloccato.':open?'Una prova veloce ti separa dalla prossima scoperta.':'Per ora è tutto top secret.'}</p><button ${!done&&!open?'disabled':''} data-route="${done?(n===3?'finale':`scoperta-${n}`):`sfida-${n}`}">${done?'Rivedi la sorpresa →':open?'GIOCA ORA →':'🔐 BLOCCATA'}</button></article>`}
 function progress(){return `<div class="progress-track" aria-label="Hai completato ${state.completed} missioni su 3"><img class="progress-portrait" src="assets/mich-sorriso.webp?v=20261114-photos" alt="Foto originale di Mich sorridente senza barba"/><span>PROGRESSI</span><div class="progress-meter">${[1,2,3].map(n=>`<span class="${state.completed>=n?'done':''}"></span>`).join('')}</div><strong>${state.completed}/3</strong></div>`}
