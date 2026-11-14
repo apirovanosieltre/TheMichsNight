@@ -32,7 +32,8 @@ assert(run('renderMissions()').includes('BLOCCATA'));
 assert.equal(run('state.safe.length'),4,'The safe must have four dials');
 assert(run('renderSafe()').includes('Quarta cifra'),'The safe needs four clues');
 assert(run('renderSafe()').includes('aggiungiamo +3, +5, +7, +9'),'Second clue must explain the series');
-assert(run('renderSafe()').includes('contemporaneamente madre e figlia'),'Third clue must clarify the overlapping roles');
+assert(run('renderSafe()').includes('Una persona può essere sia madre sia figlia'),'Third clue must clarify the overlapping roles');
+assert(!run('renderSafe()').includes('ognuna delle presenti è una persona diversa'),'Third clue must not contain contradictory wording');
 assert(run('renderSafe()').includes('otto paperelle partecipano a un torneo a eliminazione diretta'),'First clue must remain unchanged');
 assert(run('renderSafe()').includes('traccia tutte le diagonali di un esagono'),'Fourth clue must remain unchanged');
 
