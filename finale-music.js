@@ -1,18 +1,18 @@
 'use strict';
-/* Finale soundtrack: Safari-safe gesture-initiated playback.
- * On every trip to the finale, begin the HTMLAudioElement.play() within the tap.
- * Keep it inaudible during the 3-second duck loader, then reveal from time zero.
- * Web Audio controls volume on iOS, where media.volume may not be adjustable. */
+/* User-supplied finale tune.
+ * IMPORTANT: on iPhone use a plain HTMLAudioElement, NOT createMediaElementSource().
+ * Web Audio may route music through the silent/ringer channel while media appears
+ * to be playing. play() is called synchronously in the "Apri la sorpresa" click.
+ * Duck loading remains 3s; the tune is restarted at 0 when the poster appears. */
 (()=>{
   const SRC='assets/finale-music.mp3?v=20261114-finale';
   const KEY='themichsnight-finale-music-muted';
-  const VOLUME=.27,CONTRACT_VOLUME=.105;
+  const VOLUME=.4,CONTRACT_VOLUME=.17;
   let desiredRoute='home',siteSoundOn=true,musicMuted=false;
-  let context=null,sourceNode=null,gainNode=null,pendingReveal=false;
-  let media=null,lastStatus='',playAttempt=0;
+  let media=null,prepared=false,playId=0;
   try{musicMuted=localStorage.getItem(KEY)==='1'}catch{}
 
-  function ensureMedia(){
+  function audio(){
     if(media)return media;
     try{
       media=new Audio(SRC);
@@ -21,168 +21,166 @@
       media.playsInline=true;
       media.setAttribute?.('playsinline','');
       media.volume=VOLUME;
+      media.addEventListener?.('play',refresh);
+      media.addEventListener?.('playing',refresh);
+      media.addEventListener?.('pause',refresh);
+      media.addEventListener?.('ended',refresh);
+      media.addEventListener?.('error',refresh);
       media.load?.();
     }catch{return null}
     return media;
   }
-  function ensureGraph(){
-    if(context)return context;
-    const AudioContextClass=window.AudioContext||window.webkitAudioContext;
-    if(!AudioContextClass)return null;
-    const audio=ensureMedia();
-    if(!audio)return null;
-    try{
-      context=new AudioContextClass();
-      sourceNode=context.createMediaElementSource(audio);
-      gainNode=context.createGain();
-      gainNode.gain.value=0;
-      sourceNode.connect(gainNode);
-      gainNode.connect(context.destination);
-      audio.volume=1; // Volume is controlled by Web Audio, including on iPhone.
-    }catch{
-      context=null;sourceNode=null;gainNode=null;
-      audio.volume=VOLUME;
-    }
-    return context;
-  }
-  function level(value){
-    const v=Math.max(0,Math.min(1,value));
-    if(gainNode&&context){
-      try{
-        const t=context.currentTime;
-        gainNode.gain.cancelScheduledValues(t);
-        gainNode.gain.setTargetAtTime(v,t,.11);
-        return;
-      }catch{}
-    }
-    if(media){
-      try{media.volume=v}catch{}
-    }
-  }
   function allowed(){return desiredRoute==='finale'&&siteSoundOn&&!musicMuted}
-  function status(value){
-    lastStatus=value;
+  function refresh(){
     const button=document.getElementById('finale-music-toggle');
-    if(!button)return;
-    const playing=!!media&&!media.paused&&!pendingReveal;
-    button.setAttribute('aria-pressed',String(playing&&allowed()));
-    if(!siteSoundOn)button.textContent='♫ AUDIO GENERALE DISATTIVATO';
-    else if(musicMuted)button.textContent='♫ MUSICA OFF · TOCCA PER ATTIVARE';
-    else if(playing)button.textContent='♫ MUSICA ON · TOCCA PER DISATTIVARE';
-    else if(value==='loading')button.textContent='♫ CARICAMENTO MUSICA...';
-    else button.textContent='♫ TOCCA PER ASCOLTARE LA MUSICA';
+    const mute=document.getElementById('finale-music-mute');
+    const status=document.getElementById('finale-music-state');
+    const running=!!media&&!media.paused&&allowed();
+    if(button){
+      button.textContent=musicMuted?'♫ ATTIVA LA MUSICHETTA':
+        running?'♫ RIASCOLTA DALL’INIZIO':'♫ RIPRODUCI MUSICHETTA';
+      button.disabled=!siteSoundOn;
+      button.setAttribute('aria-pressed',String(running));
+    }
+    if(mute){
+      mute.textContent=musicMuted?'🔈 RIATTIVA':'🔇 SILENZIA';
+      mute.disabled=!siteSoundOn;
+      mute.setAttribute('aria-pressed',String(musicMuted));
+    }
+    if(status){
+      status.textContent=!siteSoundOn?'Audio generale disattivato':
+        musicMuted?'Musica disattivata':
+        running?'♫ Musica in riproduzione':'♫ Tocca Riproduci per attivare';
+    }
   }
-  function playFromGesture(){
-    const audio=ensureMedia();
-    if(!audio||!siteSoundOn||musicMuted)return false;
-    ensureGraph();
-    // resume() and play() happen synchronously inside the real click on Safari.
+  function attemptPlay(restart=false){
+    if(!allowed())return false;
+    const el=audio();
+    if(!el)return false;
+    if(restart){
+      try{el.pause();el.currentTime=0}catch{}
+    }
+    if(!el.paused){refresh();return true}
+    const id=++playId;
     try{
-      if(context?.state==='suspended')context.resume().catch(()=>{});
-      if(!audio.paused){status('playing');return true}
-      const attempt=++playAttempt;
-      const result=audio.play();
-      if(result&&typeof result.then==='function'){
-        result.then(()=>{
-          if(attempt!==playAttempt||!audio)return;
-          if(!allowed()&&!pendingReveal){audio.pause();return}
-          status('playing');
-        }).catch(()=>{if(attempt===playAttempt)status('tap')});
+      // Remains directly within the original user click for Safari.
+      const promise=el.play();
+      if(promise&&typeof promise.then==='function'){
+        promise.then(()=>{
+          if(id!==playId||!allowed())return;
+          refresh();
+        }).catch(()=>{
+          if(id===playId)refresh(); // Offer manual retry; never claim audible playback.
+        });
       }
+      refresh();
       return true;
-    }catch{status('tap');return false}
+    }catch{refresh();return false}
   }
   function prepareReveal(enabled){
-    // Called by go('finale') before the loader, during a user gesture.
-    siteSoundOn=enabled!==false;
     desiredRoute='finale';
-    pendingReveal=true;
-    if(!siteSoundOn||musicMuted){status('tap');return}
-    level(0);
-    playFromGesture();
+    siteSoundOn=enabled!==false;
+    prepared=true;
+    if(!allowed()){refresh();return}
+    // It may begin beneath the duck loader. This is deliberate: keeps Safari's
+    // gesture permission and guarantees the music is already unlocked.
+    attemptPlay(true);
   }
   function stop(){
-    pendingReveal=false;
-    playAttempt++;
+    prepared=false;
+    playId++;
     if(media){
       try{media.pause();media.currentTime=0}catch{}
     }
-    level(0);
-    status('stopped');
+    refresh();
   }
-  function controls(){
+  function controlBar(){
     if(document.getElementById('finale-music-controls'))return;
     const poster=document.querySelector('.final-poster-artboard');
     if(!poster)return;
-    const panel=document.createElement('div');
-    panel.id='finale-music-controls';
-    panel.className='finale-music-controls';
-    const button=document.createElement('button');
-    button.type='button';button.id='finale-music-toggle';
-    button.className='finale-music-toggle';
-    button.setAttribute('aria-label','Attiva o disattiva la musica del gran finale');
-    button.addEventListener('click',()=>{
-      if(!siteSoundOn){status('tap');return}
+    const box=document.createElement('div');
+    box.id='finale-music-controls';
+    box.className='finale-music-controls';
+    const playButton=document.createElement('button');
+    playButton.id='finale-music-toggle';
+    playButton.className='finale-music-toggle';
+    playButton.type='button';
+    playButton.setAttribute('aria-label','Riproduci o riascolta dall’inizio la musichetta del gran finale');
+    playButton.addEventListener('click',()=>{
+      if(!siteSoundOn){refresh();return}
       if(musicMuted){
         musicMuted=false;
         try{localStorage.setItem(KEY,'0')}catch{}
-        level(VOLUME);
-        playFromGesture();
-      }else if(media&&!media.paused){
-        musicMuted=true;
-        try{localStorage.setItem(KEY,'1')}catch{}
-        stop();
-      }else{
-        level(VOLUME);
-        playFromGesture();
       }
-      status();
+      attemptPlay(true);
+      refresh();
     });
-    panel.append(button);
-    const caption=document.createElement('small');
-    caption.textContent='Musica della sorpresa · volume delicato';
-    panel.append(caption);
-    poster.insertAdjacentElement('afterend',panel);
-    status();
+    box.append(playButton);
+    const mute=document.createElement('button');
+    mute.id='finale-music-mute';
+    mute.type='button';
+    mute.className='finale-music-mute';
+    mute.setAttribute('aria-label','Silenzia o riattiva la musichetta del gran finale');
+    mute.addEventListener('click',()=>{
+      if(!siteSoundOn){refresh();return}
+      musicMuted=!musicMuted;
+      try{localStorage.setItem(KEY,musicMuted?'1':'0')}catch{}
+      if(musicMuted)stop();
+      else attemptPlay(true);
+      refresh();
+    });
+    box.append(mute);
+    const state=document.createElement('small');
+    state.id='finale-music-state';
+    state.className='finale-music-state';
+    box.append(state);
+    // Above the poster instead of below the artwork, where Safari hides it
+    // behind the floating browser toolbar.
+    poster.insertAdjacentElement('beforebegin',box);
+    refresh();
   }
   function onRoute(route,soundOn){
-    const revealWasPrepared=pendingReveal;
+    const wasPrepared=prepared;
     desiredRoute=route;siteSoundOn=soundOn!==false;
     if(route!=='finale'){stop();return}
-    controls();
-    pendingReveal=false;
+    controlBar();
+    prepared=false;
     if(!allowed()){stop();return}
-    if(revealWasPrepared&&media&&!media.paused){
-      // Always restart at the beginning, not at second 3 of the loader.
-      try{media.currentTime=0}catch{}
-      level(VOLUME);
-      status('playing');
+    const el=audio();
+    if(wasPrepared&&el&&!el.paused){
+      try{el.currentTime=0}catch{}
+      el.volume=VOLUME;
+      refresh();
       return;
     }
-    level(VOLUME);
-    if(media&&!media.paused){status('playing');return}
-    // Direct URL, browser back or blocked autoplay: offer the explicit button.
-    playFromGesture();
-    status(media&&!media.paused?'playing':'tap');
+    if(el)el.volume=VOLUME;
+    if(el&&!el.paused){refresh();return}
+    // Direct hash / reload can be rejected by Safari. A prominent manual
+    // 'Riproduci musichetta' button is already visible above the poster.
+    attemptPlay(false);
+    refresh();
   }
   function onSoundChange(enabled){
     siteSoundOn=!!enabled;
     if(!siteSoundOn)stop();
-    else if(desiredRoute==='finale'){
-      level(VOLUME);
-      playFromGesture(); // This callback is invoked by the actual sound-toggle click.
-    }
-    status();
+    else if(desiredRoute==='finale')attemptPlay(false);
+    refresh();
   }
   function underContract(isOpen){
-    if(allowed())level(isOpen?CONTRACT_VOLUME:VOLUME);
+    // Native media remains audible even on iPhone in silent mode.
+    // iOS controls media volume with the system buttons, so attenuation there
+    // may be limited. The contract scene and music always remain independent.
+    if(media&&allowed())try{media.volume=isOpen?CONTRACT_VOLUME:VOLUME}catch{}
   }
-  function preload(){ensureMedia()}
+  function preload(){audio()}
   document.addEventListener('visibilitychange',()=>{
     if(document.hidden)stop();
-    else if(desiredRoute==='finale')status('tap');
+    else if(desiredRoute==='finale')refresh();
   });
   window.addEventListener('pagehide',stop);
-  window.michFinaleMusic={onRoute,onSoundChange,underContract,stop,preload,arm:playFromGesture,start:playFromGesture,prepareReveal};
+  window.michFinaleMusic={
+    onRoute,onSoundChange,underContract,stop,preload,
+    arm:attemptPlay,start:attemptPlay,prepareReveal
+  };
   preload();
 })();
