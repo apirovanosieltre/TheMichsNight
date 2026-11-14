@@ -16,5 +16,8 @@ jobs:
         run: |
           node --check app.js
           node --check loader.js
+          node --check finale-music.js
       - name: Test gameplay and assets
-        run: node scripts/smoke-test.cjs
+        run: |
+          node scripts/smoke-test.cjs
+          node scripts/finale-music-test.cjs
