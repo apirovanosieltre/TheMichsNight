@@ -734,3 +734,68 @@ html.duck-loading,body.duck-loading{overflow:hidden!important;overscroll-behavio
   .finale-music-toggle{width:100%;font-size:11px}
   .finale-music-controls small{font-size:10px}
 }
+
+
+/* Finale soundtrack: visible above artwork, clear of iPhone Safari's floating toolbar. */
+.finale-page .finale-music-controls{
+ display:grid;
+ grid-template-columns:minmax(0,1fr) auto;
+ align-items:center;
+ gap:8px 10px;
+ width:min(100%,941px);
+ margin:0 auto 12px;
+ padding:10px;
+ background:linear-gradient(100deg,#40155b,#261036 78%);
+ border:2px solid #ae65e6;
+ border-radius:12px;
+ box-shadow:0 0 19px #d145ee45;
+ text-align:left;
+}
+.finale-page .finale-music-toggle{
+ min-height:42px;
+ width:100%;
+ padding:10px 12px;
+ border:2px solid #efffa3;
+ border-radius:9px;
+ background:#dfff32;
+ box-shadow:0 3px #7a3da4;
+ color:#240d34;
+ font:950 clamp(12px,2.7vw,15px)/1.25 system-ui,sans-serif;
+}
+.finale-page .finale-music-toggle:hover{background:#edff79;border-color:#fff}
+.finale-page .finale-music-toggle[aria-pressed="true"]{
+ background:#e3ff71;color:#230f36;border-color:#f7ffb5;
+}
+.finale-page .finale-music-toggle:disabled{
+ background:#625078;color:#ead9f5;border-color:#9475b5;
+}
+.finale-page .finale-music-mute{
+ min-height:42px;
+ padding:9px 12px;
+ border:2px solid #c7a4ef;
+ border-radius:9px;
+ background:#3a225f;
+ color:#fff1ff;
+ font:900 12px/1.2 system-ui,sans-serif;
+ cursor:pointer;
+ touch-action:manipulation;
+ white-space:nowrap;
+}
+.finale-page .finale-music-mute[aria-pressed="true"]{border-color:#ffe08b;color:#ffebb0}
+.finale-page .finale-music-mute:disabled{opacity:.6;cursor:default}
+.finale-page .finale-music-mute:focus-visible,.finale-page .finale-music-toggle:focus-visible{
+ outline:3px solid #fff;outline-offset:3px
+}
+.finale-page .finale-music-state{
+ display:block;grid-column:1/-1;
+ color:#e0c9f9;
+ text-align:center;
+ font:800 11px/1.3 monospace;
+ letter-spacing:.4px;
+}
+@media(max-width:680px){
+ .finale-page .finale-music-controls{width:calc(100% - 14px);margin:0 auto 9px;padding:7px;gap:5px 6px}
+ .finale-page .finale-music-toggle{padding:9px 7px;min-height:43px;font-size:12px}
+ .finale-page .finale-music-mute{padding:9px 7px;min-height:43px;font-size:11px}
+ .finale-page .finale-music-state{font-size:10px}
+}
