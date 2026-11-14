@@ -102,6 +102,7 @@ function closeContract(){
  document.body.classList.remove('contract-modal-open');
  const origin=contractReturnFocus;contractReturnFocus=null;
  if(origin&&origin.isConnected)origin.focus({preventScroll:true});
+ else document.querySelector('.final-poster-cta')?.focus({preventScroll:true});
 }
 function openContract(){
  closeContract();
