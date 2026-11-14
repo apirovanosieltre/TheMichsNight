@@ -87,7 +87,7 @@ assert(css.includes('duck-orbit')&&css.includes('duck-rotate'));
 assert(css.includes('body.home-mode .window-bar'),'The home artwork must not duplicate the outer title bar');
 assert(css.includes('.home-hit-start'),'Mobile homepage must expose a real CTA');
 assert(css.includes('.final-poster-cta'),'Finale poster must have an interactive hit area');
-assert(css.includes('.contract-overlay')&&css.includes('.contract-stamp-slam'),'Signed contract must have a styled animated overlay');
+assert(css.includes('.contract-overlay')&&css.includes('@keyframes contract-stamp-slam'),'Signed contract must have a styled animated overlay');
 
 assert(loader.includes('MIN_MS=3000')&&loader.includes('length:8'));
 assert(read('app.js').includes('window.michLoader.navigate'));
