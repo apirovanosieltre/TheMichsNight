@@ -51,3 +51,80 @@
 .final-accept{margin:5px auto 17px;display:inline-flex;position:relative;z-index:4!important}
 .final-footer-small{font:850 11px monospace;color:#f0abbd;letter-spacing:1.5px}
 @media(max-width:720px){.final-stage{padding:20px 12px 30px;min-height:530px;border-width:4px}.final-curtain-valance{height:62px}.final-spotlights{margin-top:15px;font-size:22px}.final-marquee{font-size:clamp(23px,6.2vw,40px);padding:7px 13px;letter-spacing:1px}.final-submarquee{margin:13px auto 10px}.final-presentation{gap:0;flex-direction:column;min-height:0;padding:0}.final-mich{min-width:0;width:40%;max-width:150px;align-self:center;max-height:175px}.final-mich-head{width:89%;max-width:120px}.final-mich-head img{border-width:4px}.final-rose{font-size:34px}.final-tux{height:45px;font-size:19px}.final-tux span{transform:translateY(6px)}.final-headline .night{font-size:clamp(26px,6vw,39px);white-space:normal}.final-headline .with{font-size:clamp(24px,5vw,32px)}.final-headline strong{font-size:clamp(71px,15vw,107px)}.final-headline .flames{font-size:19px}.final-disclaimer-text{width:92%;font-size:12px;margin:14px auto 18px;padding:10px}.final-accept{max-width:96%;font-size:clamp(13px,4vw,18px);padding:11px 13px}.final-footer-small{font-size:9px}}
+
+
+/* Mobile-first overrides: nessun elemento deve allargare il viewport dell'iPhone. */
+html,body{max-width:100%;overflow-x:clip}
+.app-window,.workspace,.main-content,.win-panel,.reveal-box,.final-stage{min-width:0}
+.main-content img,.hero-photo img,.final-stage img{max-width:100%}
+.clue-list .clue{line-height:1.55;overflow-wrap:anywhere}
+.clue-list .clue span{display:inline-grid;place-items:center;min-width:29px;min-height:27px;margin-right:7px;background:var(--lime);color:#240e31;border-radius:6px;font:900 12px monospace}
+.safe-wrap{max-width:100%}
+.safe-digits{width:100%;min-width:0;gap:clamp(4px,1.6vw,9px)}
+.safe-digit{flex:1;min-width:0;max-width:74px}
+.safe-digit button,.safe-digit strong{display:block;width:100%;min-width:0;text-align:center;touch-action:manipulation}
+.safe-digit strong{font-size:clamp(28px,8.5vw,46px);line-height:1.2}
+.final-headline,.final-presentation,.final-headline .night,.final-headline strong{max-width:100%;overflow-wrap:anywhere}
+@media(max-width:720px){
+  .app-window{width:100%;max-width:100%;min-height:100dvh;margin:0;border:0;border-radius:0;box-shadow:none}
+  .window-bar{height:auto;min-height:47px;padding:8px 12px}
+  .window-caption{font-size:14px;min-width:0;gap:7px}
+  .window-caption>span:nth-child(2){white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .window-actions{display:none}
+  .workspace{display:grid;grid-template-columns:minmax(0,1fr)}
+  .sidebar{display:block;padding:6px 8px;border-right:0;border-bottom:2px solid #8953c7}
+  .sidebar-profile,.sidebar-bottom{display:none}
+  .side-nav{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;overflow:visible;padding:2px 0 4px;width:100%;min-width:0}
+  .side-nav button{min-width:0;width:100%;min-height:51px;display:flex;justify-content:center;align-items:center;flex-direction:column;gap:1px;padding:6px 2px;text-align:center;white-space:normal;line-height:1.15;font-size:clamp(10px,2.9vw,12px);box-shadow:none}
+  .side-nav button span{font-size:17px;min-width:0}
+  .main-content{width:100%;min-width:0;padding:21px clamp(12px,4vw,22px) 56px}
+  .section-head h1{overflow-wrap:anywhere}
+  .hero-layout{grid-template-columns:minmax(0,1fr);margin:20px auto;gap:19px}
+  .hero-photo{min-height:214px;max-height:none}
+  .hero-photo .face{width:min(54vw,200px);max-width:200px}
+  .hero-photo .polaroid-photo{right:calc(50% - 131px)}
+  .mini-body{font-size:clamp(15px,4.2vw,18px)}
+  .mission-grid,.discovery-grid{grid-template-columns:minmax(0,1fr)}
+  .mission-card,.discovery{min-width:0}
+  .progress-track{min-width:0;gap:7px}
+  .progress-track>span{font-size:10px}
+  .progress-meter{min-width:20px}
+  .win-panel{padding:13px 11px}
+  .game-field{padding:16px 9px}
+  .safe-wrap{padding:13px 8px;border-width:4px}
+  .safe-digit button{height:41px;min-height:41px;touch-action:manipulation}
+  .safe-digit strong{padding:5px 0}
+  .clue{padding:12px 11px;font-size:14px}
+  .game-controls{gap:9px}
+  .game-controls button{max-width:100%}
+  .reveal-inner{padding:17px 12px}
+  .reveal-photo{max-height:235px}
+  .final-stage{width:100%;max-width:100%;min-height:0;margin:0 auto;padding:24px 12px 27px;border-width:3px;border-radius:12px}
+  .final-curtain-valance{height:53px}
+  .curtain-side{width:12%}
+  .final-spotlights{font-size:19px;margin-top:10px}
+  .final-marquee{max-width:89%;padding:7px 10px;font-size:clamp(21px,5.9vw,34px);line-height:1.08;letter-spacing:0}
+  .final-submarquee{max-width:88%;padding:5px 9px;font-size:11px;letter-spacing:1px}
+  .final-presentation{min-width:0;padding:3px 0;gap:12px;flex-direction:column}
+  .final-mich{width:44%;min-width:95px;max-width:160px;align-self:center}
+  .final-mich-head{width:94%;max-width:136px}
+  .final-tux{width:95%;height:42px}
+  .final-headline{width:100%;min-width:0}
+  .final-headline .night{font-size:clamp(22px,5.8vw,35px);white-space:normal;line-height:1.16}
+  .final-headline .with{font-size:clamp(21px,5.5vw,28px)}
+  .final-headline strong{font-size:clamp(58px,17vw,91px);letter-spacing:-2px;line-height:1.08}
+  .final-headline .flames{font-size:17px;letter-spacing:3px}
+  .final-disclaimer-text{width:94%;margin:12px auto 16px;font:800 11px/1.45 monospace;padding:10px 9px}
+  .final-accept{max-width:95%;font-size:clamp(12px,3.8vw,16px);padding:13px 10px;white-space:normal}
+  .final-footer-small{font-size:9px;letter-spacing:.5px}
+  .final-bottom{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+  .toast{width:min(94vw,460px);text-align:center}
+  .duck-loader-stage{max-width:85vw}
+}
+@media(max-width:360px){
+ .main-content{padding-left:10px;padding-right:10px}
+ .side-nav{gap:4px}
+ .side-nav button{font-size:10px}
+ .final-headline strong{font-size:58px}
+ .safe-digit strong{font-size:29px}
+}

@@ -24,6 +24,9 @@ assert.equal(run("safeRoute('sfida-2')"),'missioni');
 assert.equal(run("safeRoute('scoperta-1')"),'scoperte');
 assert(run("renderFinal()").includes('AREA RISERVATISSIMA'));
 assert(run('renderMissions()').includes('BLOCCATA'));
+assert.equal(run('state.safe.length'),4,'The safe must have four dials');
+assert(run('renderSafe()').includes('Quarta cifra'),'The safe needs four clues');
+assert(read('app.js').includes("state.safe.join('')==='7839'"),'Four-digit answer required');
 assert.equal(run('(()=>{let g=initialLights();for(const i of [1,4,7])g=toggleArray(g,i);return g.every(Boolean)})()'),true);
 run('state.completed=3');
 const finale=run('renderFinal()');
@@ -38,10 +41,12 @@ assert(html.includes('loader.js')&&html.includes('duck-loader'));
 assert(css.includes('duck-orbit')&&css.includes('duck-rotate'));
 assert(loader.includes('MIN_MS=3000')&&loader.includes('length:8'));
 assert(read('app.js').includes('window.michLoader.navigate'));
-for(const image of ['mich-sorriso.webp','mich-barba.webp','mich-avatar.webp','binario-anteprima.webp']){
- const b=fs.readFileSync(path.join(root,'assets',image));
- assert.equal(b.toString('ascii',0,4),'RIFF',image+' must be valid RIFF');
- assert.equal(b.toString('ascii',8,12),'WEBP',image+' must be WebP');
+for(const image of ['mich-sorriso.svg','mich-barba.svg','mich-avatar.svg','binario-anteprima.svg']){
+ const s=read('assets/'+image);
+ assert(s.includes('<svg')&&s.includes('</svg>'),image+' must contain SVG markup');
 }
+assert(fs.statSync(path.join(root,'assets/quack.mp3')).size>1500,'The supplied sound sample must be present');
+assert(loader.includes('assets/quack.mp3'),'Duck sound must use the attached audio sample');
+assert(css.includes('grid-template-columns:repeat(3,minmax(0,1fr))'),'Mobile navigation must wrap');
 for(const file of ['index.html','styles.css','loader.js','app.js'])assert(fs.statSync(path.join(root,file)).size>0);
-console.log('PASS: routing, games, unlocks, final scene, 3-second ducks, asset integrity');
+console.log('PASS: routing, four-digit safe, mobile, final scene, three-second ducks, asset integrity');

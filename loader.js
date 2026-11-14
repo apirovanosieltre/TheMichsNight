@@ -10,17 +10,30 @@
   const orbit=document.getElementById('duck-orbit');
   orbit.innerHTML=Array.from({length:8},(_,i)=>'<span class="orbit-duck" style="--n:'+i+'">'+duckSvg+'</span>').join('');
   function soundOn(){try{const data=JSON.parse(localStorage.getItem('the-michs-night-v1')||'{}');return data.sound!==false}catch{return true}}
-  function quack(){
-    if(!soundUnlocked||!soundOn())return;
+  let quackBuffer=null, quackLoading=null;
+  function unlockAudio(){
+    soundUnlocked=true;
     try{
-      const Audio=window.AudioContext||window.webkitAudioContext;if(!Audio)return;
-      ctx=ctx||new Audio();
-      if(ctx.state==='suspended')ctx.resume();
-      const t=ctx.currentTime,osc=ctx.createOscillator(),filter=ctx.createBiquadFilter(),gain=ctx.createGain();
-      osc.type='sawtooth';osc.frequency.setValueAtTime(570,t);osc.frequency.exponentialRampToValueAtTime(315,t+.09);osc.frequency.exponentialRampToValueAtTime(450,t+.19);
-      filter.type='lowpass';filter.frequency.setValueAtTime(930,t);filter.Q.value=1.4;
-      gain.gain.setValueAtTime(.0001,t);gain.gain.exponentialRampToValueAtTime(.045,t+.025);gain.gain.setValueAtTime(.04,t+.08);gain.gain.exponentialRampToValueAtTime(.0001,t+.22);
-      osc.connect(filter);filter.connect(gain);gain.connect(ctx.destination);osc.start(t);osc.stop(t+.23);
+      const AudioContextClass=window.AudioContext||window.webkitAudioContext;
+      if(!AudioContextClass)return;
+      ctx=ctx||new AudioContextClass();
+      if(ctx.state==='suspended')ctx.resume().catch(()=>{});
+      if(!quackLoading&&window.fetch){
+        quackLoading=fetch('assets/quack.mp3').then(response=>{
+          if(!response.ok)throw Error('Audio non disponibile');
+          return response.arrayBuffer();
+        }).then(bytes=>ctx.decodeAudioData(bytes)).then(buffer=>{quackBuffer=buffer}).catch(()=>{});
+      }
+    }catch{}
+  }
+  function quack(){
+    if(!soundUnlocked||!soundOn()||!quackBuffer||!ctx)return;
+    try{
+      const source=ctx.createBufferSource(),gain=ctx.createGain();
+      source.buffer=quackBuffer;
+      gain.gain.value=.46;
+      source.connect(gain);gain.connect(ctx.destination);
+      source.start();
     }catch{}
   }
   function cleanup(){ticks.forEach(clearTimeout);ticks=[];clearTimeout(labelTimer);labelTimer=null;clearTimeout(finishTimer);finishTimer=null}
@@ -37,8 +50,8 @@
     finishTimer=setTimeout(()=>{suppressNextHash=true;hide();callback();window.scrollTo({top:0,behavior:'instant'});setTimeout(()=>{suppressNextHash=false},100)},MIN_MS);
   }
   window.michLoader={navigate, isBusy:()=>busy, show, hide};
-  document.addEventListener('pointerdown',()=>{soundUnlocked=true},{once:true,capture:true});
-  document.addEventListener('keydown',()=>{soundUnlocked=true},{once:true,capture:true});
+  document.addEventListener('pointerdown',unlockAudio,{once:true,capture:true});
+  document.addEventListener('keydown',unlockAudio,{once:true,capture:true});
   /* Il markup del loader è presente dall'inizio: non appare un flash di pagina vuota. */
   show();
   finishTimer=setTimeout(hide,MIN_MS);
