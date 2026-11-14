@@ -124,8 +124,8 @@ async function tap(fn){gesture=true;try{documentEvents.click?.();fn?.()}finally{
  // Direct #finale URL on a fresh page with no gesture can be blocked,
  // but the explicit button must recover playback on the next user tap.
  const freshInstances=instances.length;
- music.onRoute('home',true);
- music.onRoute('finale',true);await flush();
+ music.onRoute('home',false);
+ music.onRoute('finale',false);await flush();
  assert.equal(musicStarts,count,'Disabled global audio stays silent');
  assert.equal(instances.length,freshInstances);
  console.log('PASS: genuinely silent loading, sticky iOS media grant, first reveal, revisit, contract, manual replay and mute');
