@@ -128,3 +128,87 @@ html,body{max-width:100%;overflow-x:clip}
  .final-headline strong{font-size:58px}
  .safe-digit strong{font-size:29px}
 }
+
+
+/* HOME APPROVATA: la pagina iniziale segue esattamente il mockup mobile.
+   Le aree cliccabili sono elementi HTML veri, non link disegnati nell'immagine. */
+body.home-mode{background:#070416}
+body.home-mode .app-window{
+  width:min(100%,941px);
+  margin:0 auto;
+  max-width:none;
+  display:block;
+  min-height:0;
+  background:transparent;
+  border:0;
+  border-radius:0;
+  overflow:visible;
+  box-shadow:none;
+}
+body.home-mode .window-bar,
+body.home-mode .sidebar,
+body.home-mode .status-bar{display:none!important}
+body.home-mode .workspace{display:block}
+body.home-mode .main-content{
+  padding:0!important;
+  min-height:0!important;
+  width:100%;
+  background:transparent!important;
+}
+body.home-mode .main-content::after{display:none!important}
+.home-artboard{
+  position:relative;
+  width:100%;
+  aspect-ratio:941/1672;
+  margin:0 auto;
+  overflow:hidden;
+  background:#12042b;
+  box-shadow:0 15px 70px rgba(82,21,125,.45);
+}
+.home-art-image{
+  display:block;
+  width:100%;
+  height:auto;
+  max-width:none;
+  user-select:none;
+  -webkit-user-drag:none;
+}
+.home-hit{
+  position:absolute;
+  z-index:5;
+  display:block;
+  margin:0;
+  padding:0;
+  font-size:0;
+  color:transparent;
+  background:transparent;
+  border:0;
+  border-radius:9px;
+  cursor:pointer;
+  touch-action:manipulation;
+  -webkit-tap-highlight-color:rgba(223,255,51,.16);
+}
+.home-hit:hover{background:rgba(251,245,111,.09);box-shadow:0 0 0 2px rgba(223,255,51,.18) inset}
+.home-hit:active{background:rgba(255,255,255,.17)}
+.home-hit:focus-visible{outline:3px solid #e4ff3b;outline-offset:-3px;background:rgba(223,255,51,.16)}
+.home-hit-home{left:1.3%;top:21.1%;width:20.6%;height:4.3%}
+.home-hit-mission{left:1.4%;top:25.7%;width:20.4%;height:4.2%}
+.home-hit-progress{left:1.4%;top:30.3%;width:20.4%;height:4.2%}
+.home-hit-extra{left:1.4%;top:35.3%;width:20.4%;height:4.1%}
+.home-hit-start{
+  left:8.7%;
+  top:83.6%;
+  width:82.7%;
+  height:8.4%;
+  border-radius:16px;
+}
+.home-hit-start:hover{background:rgba(255,255,255,.07);box-shadow:0 0 29px rgba(223,255,51,.65)}
+@media (max-width:680px){
+  body.home-mode .app-window{width:100%;margin:0}
+  .home-artboard{width:100%;box-shadow:none}
+  .home-hit{border-radius:5px}
+  .home-hit-start{border-radius:12px}
+}
+@media (min-width:1200px){
+  body.home-mode .app-window{width:min(100%,941px)}
+}
