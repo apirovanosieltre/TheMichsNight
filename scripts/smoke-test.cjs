@@ -103,6 +103,15 @@ assert.equal(modalOpen,false,'Page scrolling must be restored after close');
 
 const html=read('index.html'),css=read('styles.css'),loader=read('loader.js');
 assert(html.includes('loader.js')&&html.includes('duck-loader'));
+assert(html.includes('finale-music.js'),'Finale soundtrack controller must be loaded');
+assert(html.indexOf('finale-music.js')<html.indexOf('app.js'),'Music controller must load before app routing');
+assert(fs.statSync(path.join(root,'assets/finale-music.mp3')).size>300000,'User supplied finale MP3 must be present');
+assert(read('app.js').includes("michFinaleMusic?.onRoute(r,state.sound)"),'Route changes must start or stop finale music');
+assert(read('app.js').includes("michFinaleMusic?.underContract(true)"),'Contract must reduce the background volume');
+assert(read('app.js').includes("michFinaleMusic?.underContract(false)"),'Closing the contract must restore volume');
+assert(read('finale-music.js').includes("SRC='assets/finale-music.mp3"),'Music must come from the user supplied file');
+assert(read('finale-music.js').includes("s.loop=true"),'Finale track should repeat during the reveal');
+
 assert(css.includes('duck-orbit')&&css.includes('duck-rotate'));
 assert(css.includes('body.home-mode .window-bar'),'The home artwork must not duplicate the outer title bar');
 assert(css.includes('.home-hit-start'),'Mobile homepage must expose a real CTA');
