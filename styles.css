@@ -264,3 +264,194 @@ body.home-mode .main-content::after{display:none!important}
  .final-poster-cta{border-radius:8px}
 }
 @media(prefers-reduced-motion:reduce){.final-poster-cta{transition:none}}
+
+
+/* LA FIRMA DEL DESTINO · scena teatrale successiva a "Accetto il mio destino" */
+body.contract-modal-open{overflow:hidden}
+.contract-overlay{
+ position:fixed;inset:0;z-index:10020;
+ display:grid;place-items:center;
+ padding:max(12px,env(safe-area-inset-top)) 12px max(12px,env(safe-area-inset-bottom));
+ background:radial-gradient(ellipse at 50% 34%,rgba(175,24,79,.54),rgba(8,0,19,.94) 72%);
+ isolation:isolate;animation:contract-veil-in .25s both;
+}
+.contract-spotlight{
+ position:absolute;inset:0;pointer-events:none;z-index:-1;
+ background:conic-gradient(from 175deg at 50% -30%,transparent 0deg,rgba(255,215,107,.09) 26deg,transparent 55deg,rgba(255,160,76,.08) 90deg,transparent 115deg);
+ filter:blur(1px);
+}
+.contract-document{
+ width:min(100%,550px);max-height:calc(100dvh - 24px);
+ max-height:calc(100svh - 24px);
+ display:flex;flex-direction:column;
+ position:relative;overflow:hidden;
+ border:4px solid #ffb74a;border-radius:19px;
+ background:
+  linear-gradient(90deg,rgba(255,255,255,.07),transparent 10%,transparent 90%,rgba(255,255,255,.07)),
+  radial-gradient(circle at 50% 10%,#841b44,#440b29 55%,#24091e);
+ box-shadow:0 0 0 4px #4b145b,0 0 37px rgba(255,65,176,.75),0 22px 85px #000e;
+ animation:contract-document-arrive .56s cubic-bezier(.18,1.1,.3,1) both;
+}
+.contract-document:before,.contract-document:after{
+ content:"";position:absolute;z-index:0;pointer-events:none;top:0;bottom:0;width:13%;
+ background:repeating-linear-gradient(93deg,#42000d 0,#980c30 18px,#df3150 32px,#73041f 47px);
+ opacity:.62;
+}
+.contract-document:before{left:-9%;transform:rotate(2deg)}
+.contract-document:after{right:-9%;transform:rotate(-2deg)}
+.contract-header{
+ position:relative;z-index:2;
+ display:flex;align-items:center;justify-content:space-between;gap:6px;
+ padding:9px 11px 9px 16px;
+ background:linear-gradient(90deg,#ffb85b,#fff4aa,#ffb455);
+ color:#381122;font:900 clamp(10px,2.7vw,13px)/1.3 monospace;letter-spacing:.45px;
+ box-shadow:0 4px 0 #8b2f38;
+}
+.contract-close{
+ flex:none;display:grid;place-items:center;width:34px;height:34px;
+ border:2px solid #482130;border-radius:5px;background:#fff8d7;
+ color:#45142c;font:bold 20px monospace;cursor:pointer;
+}
+.contract-close:hover{background:white;transform:translateY(-1px)}
+.contract-scroll{
+ position:relative;z-index:1;
+ overflow:auto;overscroll-behavior:contain;
+ padding:clamp(14px,3.3vw,25px) clamp(15px,5vw,32px) 24px;
+ text-align:center;scrollbar-color:#ff85be #3e0d2f;
+}
+.contract-present{
+ width:fit-content;margin:0 auto 10px;padding:6px 13px;
+ border:2px solid #ffd989;border-radius:8px;background:#3d0b29;
+ color:#ffe6ae;font:900 12px monospace;letter-spacing:2px;
+}
+.contract-stamp-zone{
+ position:relative;display:grid;place-items:center;
+ height:clamp(140px,27vh,202px);
+ isolation:isolate;
+}
+.contract-stamp-zone:before{
+ content:"";position:absolute;width:200px;height:180px;
+ border-radius:50%;background:radial-gradient(circle,rgba(255,203,90,.18),transparent 65%);
+}
+.contract-stamp{
+ position:relative;display:block;
+ width:min(86%,315px);
+ padding:13px 10px 9px;
+ border:7px double #ff615f;
+ border-radius:15px;
+ color:#ffae96;
+ font:1000 clamp(15px,4vw,23px)/1.1 monospace;
+ letter-spacing:1px;
+ text-shadow:0 2px #6d1a2c,0 0 15px #e8344a;
+ background:rgba(86,1,25,.8);
+ box-shadow:0 0 0 3px #57061e,inset 0 0 18px #ff567b44,0 0 22px #f6585663;
+ opacity:0;
+ transform:translateY(-76px) rotate(-17deg) scale(2.1);
+ animation:contract-stamp-slam .23s cubic-bezier(.15,1.8,.2,1) .56s both;
+}
+.contract-stamp strong{display:block;margin-top:3px;color:#fff0ae;font-size:1.6em;letter-spacing:3px}
+.stamp-tick{
+ position:absolute;right:-13px;bottom:-13px;
+ width:45px;height:45px;display:grid;place-items:center;
+ border:3px solid #ffd989;border-radius:50%;background:#2a0620;
+ color:#dbff38;font-size:29px;box-shadow:0 0 13px #bbff37;
+}
+.contract-impact{
+ position:absolute;z-index:2;right:4%;top:6%;
+ font:1000 34px/1 monospace;color:#fff5a0;
+ text-shadow:3px 3px #aa2958,0 0 15px #fff4b1;
+ opacity:0;transform:scale(.2) rotate(15deg);
+ animation:contract-tac-pop .62s ease-out .69s both;
+}
+.contract-document h2{
+ margin:7px 0 13px;
+ font:1000 clamp(25px,6vw,37px)/1.12 system-ui,sans-serif;
+ letter-spacing:-.6px;color:#f9ff7e;
+ text-shadow:3px 3px #7b244d,0 0 20px #dfff3280;
+ opacity:0;animation:contract-fade-up .4s ease-out .83s forwards;
+}
+.contract-message,.contract-deni{
+ max-width:445px;margin:0 auto 12px;
+ color:#fff3f8;font-size:clamp(15px,3.8vw,18px);line-height:1.45;
+ opacity:0;animation:contract-fade-up .45s ease-out 1.08s forwards;
+}
+.contract-message strong{color:#ffe3a3}
+.contract-deni{
+ padding:12px;border:2px solid #ff81ab;border-radius:10px;
+ background:#2d0929;box-shadow:0 0 13px #f7378d42;
+ font-weight:850;animation-delay:1.28s;
+}
+.contract-signatures{
+ display:grid;grid-template-columns:1fr 1fr;gap:8px;
+ margin:17px 0 10px;
+ color:#ffd3e0;font:800 clamp(9px,2.4vw,11px)/1.35 monospace;
+ opacity:0;animation:contract-fade-up .45s ease-out 1.38s forwards;
+}
+.contract-signatures span{padding:10px 5px;border-top:2px dashed #ffadc2}
+.contract-signatures strong{
+ display:block;margin-top:8px;
+ color:#faffb8;font:900 clamp(15px,4vw,19px)/1.3 cursive;
+}
+.contract-fineprint{
+ color:#d7adbd;font:700 10px/1.4 monospace;margin:9px auto 15px;
+ opacity:0;animation:contract-fade-up .4s ease-out 1.48s forwards;
+}
+.contract-ack{
+ display:block;width:100%;min-height:48px;margin:10px 0 0;padding:12px 10px;
+ border:3px solid #ffffd2;border-radius:10px;
+ background:#e4ff36;color:#301037;
+ font:1000 clamp(13px,3.8vw,17px)/1.15 system-ui,sans-serif;
+ box-shadow:0 5px #e153a2,0 8px #340e34;
+ opacity:0;animation:contract-fade-up .4s ease-out 1.55s forwards;
+ cursor:pointer;
+}
+.contract-ack:hover{background:#f6ff81;transform:translateY(-2px)}
+.contract-close:focus-visible,.contract-ack:focus-visible{outline:3px solid #fff;outline-offset:3px}
+.final-confirm .final-confirm-seal{
+ display:grid;place-items:center;
+ width:47px;height:47px;margin:0 auto 10px;
+ color:#dfff32;border:3px solid #ffc0d5;border-radius:50%;
+ background:#85123a;font:1000 29px monospace;
+ box-shadow:0 0 18px #f53d7d66;
+}
+.final-confirm h2{font-size:clamp(21px,4vw,28px)}
+@keyframes contract-veil-in{from{opacity:0}to{opacity:1}}
+@keyframes contract-document-arrive{
+ from{opacity:0;transform:translateY(35px) scale(.92)}
+ to{opacity:1;transform:translateY(0) scale(1)}
+}
+@keyframes contract-stamp-slam{
+ 0%{opacity:0;transform:translateY(-76px) rotate(-17deg) scale(2.1)}
+ 70%{opacity:1;transform:translateY(8px) rotate(-9deg) scale(.9)}
+ 100%{opacity:1;transform:translateY(0) rotate(-10deg) scale(1)}
+}
+@keyframes contract-tac-pop{
+ 0%{opacity:0;transform:scale(.2) rotate(15deg)}
+ 20%{opacity:1;transform:scale(1.25) rotate(13deg)}
+ 60%{opacity:1;transform:scale(1) rotate(8deg)}
+ 100%{opacity:0;transform:scale(1.12) rotate(8deg)}
+}
+@keyframes contract-fade-up{
+ from{opacity:0;transform:translateY(9px)}
+ to{opacity:1;transform:translateY(0)}
+}
+@media(max-width:420px){
+ .contract-overlay{padding:8px 8px max(8px,env(safe-area-inset-bottom))}
+ .contract-document{max-height:calc(100svh - 16px);border-radius:13px;border-width:3px}
+ .contract-header{padding:6px 9px 6px 12px}
+ .contract-scroll{padding:12px 15px 19px}
+ .contract-present{margin-bottom:4px;font-size:10px}
+ .contract-stamp-zone{height:146px}
+ .contract-stamp{border-width:5px;padding:11px 8px 7px}
+ .contract-document h2{margin-top:3px}
+ .contract-signatures{margin-top:10px}
+}
+@media(prefers-reduced-motion:reduce){
+ .contract-overlay,.contract-document,.contract-stamp,.contract-impact,
+ .contract-document h2,.contract-message,.contract-deni,
+ .contract-signatures,.contract-fineprint,.contract-ack{
+ animation:none!important;opacity:1!important;transform:none!important;
+ }
+ .contract-stamp{transform:rotate(-9deg)!important}
+ .contract-impact{display:none}
+}
