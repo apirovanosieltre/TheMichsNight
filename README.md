@@ -20,4 +20,5 @@ Le prenotazioni e la data sono ancora da definire. Le immagini e il codice distr
 - Navigazione mobile a 2 righe, scene e rotelle responsive, finale teatrale adattivo.
 - Cassaforte a 4 cifre con enigmi logici (codice memorizzato nel sorgente); progressi precedenti compatibili.
 - Effetto QUACK derivato da un breve campione del WAV fornito e riprodotto solo quando il browser consente l'audio.
-- Le fotografie originali **non erano presenti** nel repository: i quattro piccoli WebP preesistenti non fornivano immagini visibili. Li abbiamo sostituiti visivamente con illustrazioni SVG esplicite e senza riferimenti a persone reali. Per ripristinare le foto servono file originali caricati come asset.
+- **Ripristinate le foto autentiche di Mich** già presenti nel repository: `mich-sorriso.webp` (sbarbato), `mich-barba.webp` (barbuto) e `mich-avatar.webp` (cartoon). Utilizzate nelle sezioni home, minigiochi e gran finale. Recuperabili dalla cronologia Git se accidentalmente sostituite.
+- Il repository contiene versioni WebP compatte delle foto. Per ottenere maggiore risoluzione servono gli originali a piena qualità.
