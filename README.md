@@ -22,3 +22,8 @@ Le prenotazioni e la data sono ancora da definire. Le immagini e il codice distr
 - Effetto QUACK derivato dal nuovo MP3 di paperella fornito, alleggerito per il caricamento mobile e riprodotto solo quando il browser consente l'audio.
 - **Ripristinate le foto autentiche di Mich** già presenti nel repository: `mich-sorriso.webp` (sbarbato), `mich-barba.webp` (barbuto) e `mich-avatar.webp` (cartoon). Utilizzate nelle sezioni home, minigiochi e gran finale. Recuperabili dalla cronologia Git se accidentalmente sostituite.
 - Il repository contiene versioni WebP compatte delle foto. Per ottenere maggiore risoluzione servono gli originali a piena qualità.
+
+## QUACK durante il caricamento
+- Il campione `assets/quack.mp3` viene precaricato e riprodotto a intervalli casuali (non quattro suoni fissi) finché il loader è aperto.
+- Sui browser che impediscono l'autoplay, tocca `🔊 TOCCA PER SENTIRE I QUACK` al primo caricamento. In seguito la navigazione attiverà i versi automaticamente, se l'audio è abilitato.
+- Chiudendo il loader i versi e i timer audio vengono interrotti.

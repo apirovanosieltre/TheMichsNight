@@ -476,3 +476,9 @@ body.contract-modal-open{overflow:hidden}
 .symbol-history-hints{display:flex;flex:1;gap:4px 12px;flex-wrap:wrap;justify-content:flex-end;font:750 12px/1.45 system-ui,sans-serif;color:#fff1b0}
 .symbol-history-empty{padding:13px 10px;border:1px dashed #77649e;border-radius:9px;text-align:center;color:#c9bce5;font-size:13px}
 @media(max-width:420px){.symbol-safe>p{font-size:13px}.symbol-history-row{gap:7px;padding:9px}.symbol-history-hints{justify-content:flex-start;font-size:11px}.symbol-choice{min-height:47px}}
+
+/* Il pulsante compare solo quando il browser non consente ancora l'audio automatico. */
+.duck-audio-unlock{margin-top:13px;max-width:92%;padding:10px 14px;border:2px solid #ffffb9;border-radius:10px;background:var(--lime);color:#24103c;font:900 12px/1.25 monospace;letter-spacing:.4px;box-shadow:0 4px #6f429e;cursor:pointer;touch-action:manipulation}
+.duck-audio-unlock[hidden]{display:none!important}
+.duck-audio-unlock:focus-visible{outline:3px solid #fff;outline-offset:3px}
+@media(max-width:680px){.duck-audio-unlock{font-size:11px;padding:9px 11px;margin-top:9px}.duck-box{max-height:calc(100dvh - 24px)}}
