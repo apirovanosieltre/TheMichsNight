@@ -143,6 +143,7 @@ assert(loader.includes('scheduleQuack(true)')&&/randomDelay\(\d+,\d+\)/.test(loa
 assert(!loader.includes('[500,1270,1990,2650]'),'No four fixed quack timestamps');
 assert(loader.includes('document.addEventListener(\'pointerdown\'')&&loader.includes('playQuack()'),'Mobile duck audio must be initiated by a user gesture');
 assert(loader.includes('stopPlaying()'),'Hide must stop any playing quacks');
+assert(loader.includes('const CLIP=\'assets/quack.mp3'),'The attached duck sound must be used');
 
 assert(read('app.js').includes('window.michLoader.navigate'));
 for(const image of ['mich-sorriso.webp','mich-barba.webp','mich-avatar.webp','binario-anteprima.webp']){
