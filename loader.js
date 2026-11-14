@@ -6,7 +6,7 @@
 (()=>{
  const MIN_MS=3000;
  const KEY='the-michs-night-v1';
- const CLIP='assets/quack.mp3?v=20261114-quack-native-v2';
+ const CLIP='assets/quack.mp3?v=20261114-double-clean-v1';
  const WORDS=['QUACK! MISSIONE IN ARRIVO...','LE PAPERE SONO QUASI PRONTE...','PREPARAZIONE MISSIONE...','QUACK QUACK... CI SIAMO!','ACCESSO ALL’AVVENTURA...'];
  let busy=false,quack=null,quackTimer=null,finishTimer=null,suppressNextHash=false;
  let firstQuackPlayed=false,quackPending=false,quackUnlocked=false,quackFailed=false,playToken=0;
