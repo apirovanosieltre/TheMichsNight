@@ -6,7 +6,7 @@
  * The visible play button is the honest fallback for restrictive browsers. */
 (()=>{
  const SRC='assets/finale-music.mp3?v=20261114-finale';
- const SILENT_WAV='data:audio/wav;base64,UklGRmQBAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YUABAACAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgA==';
+ const SILENT_WAV='data:audio/wav;base64,UklGRsQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YaAAAACAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA';
  const KEY='themichsnight-finale-music-muted';
  const VOLUME=.4,CONTRACT_VOLUME=.17;
  let route='home',globalSound=true,localMuted=false;
@@ -60,7 +60,7 @@
  // Called by a REAL click/keydown, not by the delayed route callback.
  // The entire priming sound is digital silence, so it cannot be heard.
  function prime(){
-  if(primed||primePending||trackLoaded)return;
+  if(!globalSound||localMuted||primed||primePending||trackLoaded)return;
   const el=audio();if(!el)return;
   primePending=true;
   try{
