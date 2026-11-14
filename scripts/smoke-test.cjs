@@ -111,6 +111,17 @@ assert(css.includes('.contract-overlay')&&css.includes('@keyframes contract-stam
 
 assert(loader.includes('MIN_MS=3000')&&loader.includes('length:8'));
 assert(html.includes('id="duck-audio-unlock"'),'A manual audio control must be visible when autoplay is blocked');
+
+assert(html.includes('class="duck-box-header"')&&html.includes('class="duck-box-footer"'),'Loader should use a compact header and footer');
+assert(html.includes('id="duck-audio-state"'),'Audio status should keep the row stable');
+assert(html.includes('duck-loader-progress-fill'),'Progress bar must have an independent fill');
+assert(css.includes('duck-orbit-balanced')&&css.includes('duck-keep-upright'),'Eight ducks must orbit while remaining upright');
+assert(css.includes('position:absolute;inset:50% auto auto 50%;'),'QUACK badge must be centered precisely');
+assert(css.includes('min-height:42px'),'Loading message must have a stable text area');
+assert(css.includes('duck-meter-fill 3s'),'Loading progress should animate for three seconds');
+assert(css.includes('max-height:calc(100dvh - 22px)'),'Loader card should fit small mobile viewports');
+assert(loader.includes("classList?.add('duck-loading')")&&loader.includes("classList?.remove('duck-loading')"),'Background scrolling must be disabled during loading');
+
 assert(css.includes('.duck-audio-unlock'),'Audio unlock must be styled');
 assert(loader.includes('preloadQuack()'),'Quack audio must preload before any interaction');
 assert(loader.includes('scheduleQuack(true)')&&loader.includes('randomDelay(620,1370)'),'Quacks must be repeated at random intervals');
