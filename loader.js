@@ -19,7 +19,7 @@
       ctx=ctx||new AudioContextClass();
       if(ctx.state==='suspended')ctx.resume().catch(()=>{});
       if(!quackLoading&&window.fetch){
-        quackLoading=fetch('assets/quack.mp3').then(response=>{
+        quackLoading=fetch('assets/quack.mp3?v=20261114-truequack').then(response=>{
           if(!response.ok)throw Error('Audio non disponibile');
           return response.arrayBuffer();
         }).then(bytes=>ctx.decodeAudioData(bytes)).then(buffer=>{quackBuffer=buffer}).catch(()=>{});
